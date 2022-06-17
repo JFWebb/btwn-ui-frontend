@@ -1,4 +1,7 @@
+import CardsContainer from '../Components/CardsContainer/CardsContainer';
+
 const ResultsPage = (props) => {
-    return <h1>This is the ResultsPage</h1>
+    return (
+    <CardsContainer />)
 }; 
 export default ResultsPage; 
