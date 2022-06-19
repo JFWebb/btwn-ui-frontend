@@ -1,4 +1,3 @@
-
 import {useEffect, useState, useRef} from 'react';
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import * as tt from '@tomtom-international/web-sdk-maps';
@@ -43,4 +42,4 @@ const Map = (props) => {
 
     return <div ref={mapElement} className="mapDiv"></div>
 }; 
-export default Map; 
+export default Map;

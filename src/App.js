@@ -1,6 +1,7 @@
 
 // import packages
 import './App.css';
+import { useState, useEffect } from 'react';
 
 
 import Header from './Components/Header/Header'; 
@@ -14,8 +15,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Form />
-      <Map />
+      <Main />
       <ResultsPage />
       <AddressPage />
       <Footer />
