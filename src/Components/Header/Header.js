@@ -1,4 +1,22 @@
+import {login, logout} from '../../services/firebase';
+import {Link} from 'react-router-dom';
+
 const Header = (props) => {
-    return <h1>This is the Header</h1>
+    return (
+        <nav className = 'nav'>
+            <Link to ="/">
+                <div> BTWN U+I</div>
+            </Link>
+
+            <ul>
+                <li onClick={login}>
+                    Login
+                </li>
+                <li onClick={logout}>
+                    Login
+                </li>
+            </ul>
+        </nav>
+    )
 }; 
 export default Header; 
