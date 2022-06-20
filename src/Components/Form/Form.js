@@ -5,23 +5,8 @@ import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
 
 const Form = (props) => {
-    // const [firstAdd, setFirstAdd] = useState('')
-    // const [secAdd, setSecAdd] = useState('')
-    // const [firstAddCoords, setFirstAddCoords] = useState({
-    //   lat: '',
-    //   lon: ''
-    // })
-    // const [secondAddCoords, setSecondAddCoords] = useState({
-    //   lat: '',
-    //   lon: ''
-    // })
-    // const [query, setQuery] = useState('')
-  
-  
-    // api call that GETS the lat & lon of each address and sets them to a state
     const apiCall = (e) => {
       props.setFirstAdd(e.target.value)
-      console.log('this is first add: ' + props.firstAdd)
       axios.get(`https://api.tomtom.com/search/2/geocode/${props.firstAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
         .then(result => {
           props.setFirstAddCoords(
@@ -31,13 +16,12 @@ const Form = (props) => {
             }
           )
         })
-        .then(() => console.log('this is first add cords: ' + props.firstAddCoords.lat + ',' + props.firstAddCoords.lon))
         .catch(error => console.log(error))
     }
   
     const secondApiCall = (e) => {
       props.setSecAdd(e.target.value)
-      console.log('this is second add: ' + props.secAdd)
+      // console.log('this is second add: ' + props.secAdd)
       axios.get(`https://api.tomtom.com/search/2/geocode/${props.secAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
         .then(secondResult => {
           props.setSecondAddCoords(
@@ -47,13 +31,17 @@ const Form = (props) => {
             }
           )
         })
-        .then(() => console.log('this is second add cords: ' + props.secondAddCoords.lat + ',' + props.secondAddCoords.lon))
         .catch(error => console.log(error))
     }
   
     // api POST call that takes in the lat/lon from the previous function
     const apiPostCall = (event) => {
       event.preventDefault(); 
+      console.log('this is first add: ' + props.firstAdd)
+      console.log('this is first add cords: ' + props.firstAddCoords.lat + ',' + props.firstAddCoords.lon)
+      console.log('this is second add: ' + props.secAdd)
+      console.log('this is second add cords: ' + props.secondAddCoords.lat + ',' + props.secondAddCoords.lon)
+      
       axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${props.query}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r&maxDetourTime=3600`,
         {
           "route": {
