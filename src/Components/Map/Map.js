@@ -3,46 +3,19 @@ import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import * as tt from '@tomtom-international/web-sdk-maps';
 import './Map.styles.css';
 
-// intialize a max-zoom var, this can be changed
-const MAX_ZOOM = 17;
- 
 const Map = (props) => {
    // useRef is a hook that provide access to non-virtual DOM elements.
    const mapElement = useRef();
  
-   // set map var states according to TomTom documentation
-   const [mapLongitude, setMapLongitude] = useState(-121.91599);
-   const [mapLatitude, setMapLatitude] = useState(37.36765);
-   const [mapZoom, setMapZoom] = useState(13);
-   // map  holds a reference to the TomTom map object we will create.
-   const [map, setMap] = useState({});
- 
-   //functions that update our state variables and update the map
-   const increaseZoom = () => {
-       if (mapZoom < MAX_ZOOM) {
-           setMapZoom(mapZoom + 1);
-       }
-   };
-      
-   const decreaseZoom = () => {
-       if (mapZoom > 1) {
-           setMapZoom(mapZoom - 1);
-       }
-   };
-  
-   const updateMap = () => {
-       map.setCenter([parseFloat(mapLongitude), parseFloat(mapLatitude)]);
-       map.setZoom(mapZoom);
-   };
- 
+   // see note starting at line 22
    useEffect(() => {
    let map = tt.map({
        key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
        container: mapElement.current,
-       center: [mapLongitude, mapLatitude],
-       zoom: mapZoom
+       center: [props.mapLongitude, props.mapLatitude],
+       zoom: props.mapZoom
    });
-   setMap(map);
+   props.setMap(map);
    return () => map.remove();
    }, []);
  
