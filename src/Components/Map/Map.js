@@ -17,7 +17,7 @@ const Map = (props) => {
    });
    props.setMap(map);
    return () => map.remove();
-   }, []);
+   }, [props.mapLongitude, props.mapLatitude]);
  
    //ref={mapElement} attribute tells React the mapElement variable should hold a reference to the actual DOM element representing this div.
    // We need this reference because the TomTom Maps SDK can't render into a piece of React's virtual DOM. It needs to work with a real DOM object.
