@@ -10,13 +10,21 @@ import Map from './Components/Map/Map';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
+import {auth} from './services/firebase';
 
 
 function App() {
+  const [user, setUser] = useState(null);
+
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user=> setUser(user))
+  }, [])
+
   
   return (
     <div className="App">
-      <Header />
+      <Header user={user} />
       <Form />
       <Map />
       <ResultsPage />

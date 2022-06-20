@@ -1,7 +1,11 @@
 import {login, logout} from '../../services/firebase';
 import {Link} from 'react-router-dom';
 
+
+
 const Header = (props) => {
+
+
     return (
         <nav className = 'nav'>
             <Link to ="/">
@@ -9,12 +13,14 @@ const Header = (props) => {
             </Link>
 
             <ul>
-                <li onClick={login}>
-                    Login
-                </li>
-                <li onClick={logout}>
-                    Login
-                </li>
+                {
+                    props.user
+                    ? <li onClick={logout}>Logout</li>
+                    : <li onClick={login}>Login</li>
+                }
+
+
+                
             </ul>
         </nav>
     )
