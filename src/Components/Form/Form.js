@@ -1,13 +1,12 @@
-/*
-
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import tt from '@tomtom-international/web-sdk-maps';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import { propertiesContainsFilter } from '@turf/turf';
 
-const Form = () => {
-    const [firstAdd, setFirstAdd] = useState('35622%20Kolo%20ct%20wildomar%20CA%2092595')
-    const [secAdd, setSecAdd] = useState('40597%20Chantemar%20Way%20Temecula%20CA%2092591')
+const Form = (props) => {
+    const [firstAdd, setFirstAdd] = useState('')
+    const [secAdd, setSecAdd] = useState('')
     const [firstAddCoords, setFirstAddCoords] = useState({
       lat: '',
       lon: ''
@@ -16,6 +15,7 @@ const Form = () => {
       lat: '',
       lon: ''
     })
+    const [query, setQuery] = useState('')
   
   
     // api call that GETS the lat & lon of each address and sets them to a state
@@ -49,8 +49,9 @@ const Form = () => {
     }
   
     // api POST call that takes in the lat/lon from the previous function
-    const apiPostCall = () => {
-      axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/pizza.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r&maxDetourTime=3600`,
+    const apiPostCall = (event) => {
+      event.preventDefault(); 
+      axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r&maxDetourTime=3600`,
         {
           "route": {
             "points": [
@@ -79,10 +80,28 @@ const Form = () => {
 
     return (
       <div>
-        This is the form 
+        <form onSubmit={(event) => apiPostCall(event)}>
+            <input
+            type="text"
+            name="firstAdd"
+            onChange={(e) => setFirstAdd(e.target.value)}
+            value={firstAdd}
+            />
+            <input
+             type="text"
+             name="secAdd"
+             onChange={(e) => setSecAdd(e.target.value)}
+             value={secAdd}
+             />
+             <input 
+            type="text"
+            name="query"
+            onChange={(e) => setQuery(e.target.value)}
+            value={query}
+            />
+            <input type="submit" value="Search" />
+        </form>
       </div>
     )
   }
 export default Form; 
-
-*/
