@@ -19,11 +19,11 @@ const Form = (props) => {
   
   
     // api call that GETS the lat & lon of each address and sets them to a state
-    const apiCall = () => {
+    const apiCall = (e) => {
+      setFirstAdd(e.target.value)
+      console.log('this is first add: ' + firstAdd)
       axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
         .then(result => {
-          console.log('FIRST ADDRESS results: ', result.data)
-          console.log('FIRST ADDRESS results lon/lat: ', result.data.results[0].position)
           setFirstAddCoords(
             {
               lat: result.data.results[0].position.lat,
@@ -31,13 +31,14 @@ const Form = (props) => {
             }
           )
         })
+        .then(() => console.log('this is first add cords: ' + firstAddCoords.lat + ',' + firstAddCoords.lon))
     }
   
-    const secondApiCall = () => {
+    const secondApiCall = (e) => {
+      setSecAdd(e.target.value)
+      console.log('this is second add: ' + secAdd)
       axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
         .then(secondResult => {
-          console.log('SECOND ADDRESS results: ', secondResult.data)
-          console.log('SECOND ADDRESS results lon/lat: ', secondResult.data.results[0].position)
           setSecondAddCoords(
             {
               lat: secondResult.data.results[0].position.lat,
@@ -45,7 +46,8 @@ const Form = (props) => {
             }
           )
         })
-        .catch(error => console.log(error))
+        .then(() => console.log('this is second add cords: ' + secondAddCoords.lat + ',' + secondAddCoords.lon))
+        // .catch(error => console.log(error))
     }
   
     // api POST call that takes in the lat/lon from the previous function
@@ -56,12 +58,12 @@ const Form = (props) => {
           "route": {
             "points": [
               {
-                "lat": 33.60299,
-                "lon": -117.26039
+                "lat": firstAddCoords.lat,
+                "lon": firstAddCoords.lon
               },
               {
-                "lat": 33.52549,
-                "lon": -117.14814
+                "lat": secondAddCoords.lat,
+                "lon": secondAddCoords.lon
               },
             ]
           },
@@ -80,17 +82,17 @@ const Form = (props) => {
 
     return (
       <div>
-        <form onSubmit={(event) => apiPostCall(event)}>
+        <form onSubmit={(e) => apiPostCall(e)}>
             <input
             type="text"
             name="firstAdd"
-            onChange={(e) => setFirstAdd(e.target.value)}
+            onChange={apiCall}
             value={firstAdd}
             />
             <input
              type="text"
              name="secAdd"
-             onChange={(e) => setSecAdd(e.target.value)}
+             onChange={secondApiCall}
              value={secAdd}
              />
              <input 
