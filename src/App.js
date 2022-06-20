@@ -18,7 +18,10 @@ function App() {
 
 
   useEffect(() => {
-    auth.onAuthStateChanged(user=> setUser(user))
+    const unsubscribe = auth.onAuthStateChanged(user=> setUser(user));
+    return () => {
+      unsubscribe();
+    }
   }, [])
 
   
@@ -28,7 +31,7 @@ function App() {
       <Form />
       <Map />
       <ResultsPage />
-      <AddressPage/>
+      <AddressPage user={user}/>
       <Footer />
     </div>
   );

@@ -30,10 +30,15 @@ const AddressPage = (props) => {
     getAddress();
   }, [])
     return (
+      
         <div>
+          {props.user &&
+          <div>
             <h1> This is the Address Component </h1>
-        <AddressDisplay address={address} getAddress={getAddress}/>
-        <AddressForm createAddress={createAddress} />
+        <AddressDisplay user={props.user} address={address} getAddress={getAddress}/>
+        <AddressForm user={props.user} createAddress={createAddress} />
+        </div>
+      }
         </div>
     )
     

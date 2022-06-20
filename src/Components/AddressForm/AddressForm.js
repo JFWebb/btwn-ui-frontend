@@ -20,7 +20,8 @@ const AddressForm = (props) => {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <div>
+         <form onSubmit={handleSubmit}>
             <h1> Add a new Saved Address! (This is AddressForm sub-component) </h1>
             <input
                 type='text'
@@ -38,6 +39,7 @@ const AddressForm = (props) => {
                 type='submit'
             />
         </form>
+        </div>
     )
 }
 

@@ -10,13 +10,13 @@ const AddressDisplay = (props) => {
         props.getAddress();
     }
     return (
-        
-        props.address.map((address) => (
-        <div className ='addressContainer'>
-            <h2> {address.name} </h2>
-            <h2> {address.address} </h2>
-        </div>
-    ))
+
+            props.address.map((address) => (
+                <div className ='addressContainer'>
+                    <h2> {address.name} </h2>
+                    <h2> {address.address} </h2>
+                </div>
+            ))
     )
 }
 
