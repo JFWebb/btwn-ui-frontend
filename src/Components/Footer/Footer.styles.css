@@ -1,0 +1,20 @@
+.main-footer {
+    background-color: lightgray; 
+}
+.container {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-evenly; 
+}
+.ul li {
+    list-style: none; 
+}
+.footer-left {
+    padding: 0 0 20px 0; 
+}
+.footer-center {
+    padding: 0 0 20px 0; 
+}
+.footer-right {
+    padding: 0 0 20px 0; 
+}
