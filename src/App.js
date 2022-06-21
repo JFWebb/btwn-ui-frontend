@@ -10,12 +10,11 @@ import Map from './Components/Map/Map';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
+import tt from '@tomtom-international/web-sdk-maps';
 
 
 function App() {
   /////////////////////// MAP STATES
-  const [mapLongitude, setMapLongitude] = useState(null);
-  const [mapLatitude, setMapLatitude] = useState(null);
   const [mapZoom, setMapZoom] = useState(null);
   // map  holds a reference to the TomTom map object we will create.
   const [map, setMap] = useState({});
@@ -32,36 +31,22 @@ function App() {
     lon: ''
   })
   const [query, setQuery] = useState('')
+
+  // cords as array pairs
+  const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
+  const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
   
   /////////////////////// MAP FUNCTIONS
 
-  //functions that update our state variables and update the map
-   const increaseZoom = () => {
-       if (mapZoom < 17) {
-           setMapZoom(mapZoom + 1);
-       }
-   };
-      
-   const decreaseZoom = () => {
-       if (mapZoom > 1) {
-           setMapZoom(mapZoom - 1);
-       }
-   };
-  
-  // original updateMap from tutorial, leave for now
   //  const updateMap = async () => {
-  //      map.setCenter([parseFloat(mapLongitude), parseFloat(mapLatitude)]);
-  //      map.setZoom(mapZoom);
+  //      map.setCenter([parseFloat(firstAddCoords.lon), parseFloat(firstAddCoords.lat)]);
+  //      map.setZoom(15);
   //  };
 
-  // modified update map to test lifted state of maps
-  const updateMap = () => {
-    // these are dummy values for 
-    setMapLatitude(42.477407)
-    setMapLongitude(-71.061147)
-    // map.setCenter([parseFloat(mapLongitude), parseFloat(mapLatitude)]);
-    // map.setZoom(mapZoom);
- };
+   const addMarker = (coords) => {
+     const marker = new tt.Marker().setLngLat(coords).addTo(map) ;
+   }
+
 
   return (
     <div className="App">
@@ -77,13 +62,15 @@ function App() {
         setSecondAddCoords={setSecondAddCoords}
         query={query}
         setQuery={setQuery}
+        // updateMap={updateMap}
+        addMarker={addMarker}
       />
       <Map
-        mapLongitude={mapLongitude}
-        mapLatitude={mapLatitude}
         mapZoom={mapZoom}
         map={map}
         setMap={setMap}
+        firstAddCoords={firstAddCoords}
+        secondAddCoords={secondAddCoords}
       />
       <ResultsPage />
       <AddressPage/>
@@ -91,5 +78,5 @@ function App() {
     </div>
   );
 }
-
 export default App;
+

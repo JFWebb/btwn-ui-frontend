@@ -1,9 +1,13 @@
-import {useEffect, useState, useRef} from 'react';
+import {useEffect, useState, useRef, Component} from 'react';
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import * as tt from '@tomtom-international/web-sdk-maps';
 import './Map.styles.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const Map = (props) => {
+
+   // SETTING UP MAP
+   // detour time 
    // useRef is a hook that provide access to non-virtual DOM elements.
    const mapElement = useRef();
  
@@ -12,12 +16,19 @@ const Map = (props) => {
    let map = tt.map({
        key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
        container: mapElement.current,
-       center: [props.mapLongitude, props.mapLatitude],
-       zoom: props.mapZoom
+    //    center: [props.mapLongitude, props.mapLatitude],
+    //    zoom: props.mapZoom
    });
+
    props.setMap(map);
+
    return () => map.remove();
-   }, [props.mapLongitude, props.mapLatitude]);
+   }, []);
+
+
+
+   // calculate route
+
  
    //ref={mapElement} attribute tells React the mapElement variable should hold a reference to the actual DOM element representing this div.
    // We need this reference because the TomTom Maps SDK can't render into a piece of React's virtual DOM. It needs to work with a real DOM object.
