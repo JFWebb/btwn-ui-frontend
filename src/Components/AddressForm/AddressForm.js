@@ -11,7 +11,6 @@ const AddressForm = (props) => {
             ...newAddress,
             [event.target.name]: event.target.value
         });
-        console.log(event)
     };
 
     const handleSubmit = (event) => {
@@ -22,7 +21,7 @@ const AddressForm = (props) => {
     return(
         <div>
          <form onSubmit={handleSubmit}>
-            <h1> Add a new Saved Address! (This is AddressForm sub-component) </h1>
+            <h1> Add a new Saved Address!  </h1>
             <input
                 type='text'
                 name='name'

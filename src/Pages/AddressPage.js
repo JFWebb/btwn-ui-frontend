@@ -4,11 +4,18 @@ import {useState, useEffect} from 'react'
 
 const AddressPage = (props) => {
     const [address, setAddress ] = useState([])
-  const URL = "http://localhost:4000/address"
+  const URL = "http://localhost:4000/address/"
 
   // GET ROUTE
   const getAddress = async () => {
-    const response =await fetch(URL);
+    const token = await props.user.getIdToken();
+    console.log(token)
+    const response = await fetch(URL, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
     const data = await response.json();
     setAddress(data)
   }
@@ -16,19 +23,26 @@ const AddressPage = (props) => {
 // CREATE ROUTE
 
   const createAddress = async (address) => {
+    if (!props.user) return;
+    const token = await props.user.getIdToken();
     await fetch (URL, {
         method: 'POST',
         headers: {
             'Content-type': 'Application/json',
+            'Authorization': 'Bearer ' + token
         },
         body:JSON.stringify(address)
     })
   }
 
-
   useEffect(()=> {
-    getAddress();
-  }, [])
+    if(props.user) {
+      getAddress();
+    } else {
+      setAddress([]);
+    }
+  },[props.user])
+
     return (
       
         <div>

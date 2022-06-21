@@ -18,11 +18,12 @@ function App() {
 
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user=> setUser(user));
-    return () => {
+    const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
+
+    return() => {
       unsubscribe();
     }
-  }, [])
+}, []);
 
   
   return (
