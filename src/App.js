@@ -10,9 +10,23 @@ import Map from './Components/Map/Map';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
+import {auth} from './services/firebase';
 
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
+
+    return() => {
+      unsubscribe();
+    }
+}, []);
+
+
   /////////////////////// MAP STATES
   const [mapLongitude, setMapLongitude] = useState(null);
   const [mapLatitude, setMapLatitude] = useState(null);
@@ -47,6 +61,7 @@ function App() {
            setMapZoom(mapZoom - 1);
        }
    };
+
   
   // original updateMap from tutorial, leave for now
   //  const updateMap = async () => {
@@ -65,6 +80,10 @@ function App() {
 
   return (
     <div className="App">
+
+      <Header user={user} />
+      <Form />
+      <Map />
       <Header />
       <Form 
         firstAdd={firstAdd}
@@ -86,7 +105,7 @@ function App() {
         setMap={setMap}
       />
       <ResultsPage />
-      <AddressPage/>
+      <AddressPage user={user}/>
       <Footer />
     </div>
   );
