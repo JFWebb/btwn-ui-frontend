@@ -5,6 +5,10 @@ import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
 
 const Form = (props) => {
+
+
+
+
     const apiCall = (e) => {
       props.setFirstAdd(e.target.value)
       axios.get(`https://api.tomtom.com/search/2/geocode/${props.firstAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
@@ -59,8 +63,16 @@ const Form = (props) => {
           }
         },
       )
-        .then(result => {
-          console.log('POST API CALL RESULTS: ', result.data)
+        .then(results => {
+          // console.log(results.data)
+          let modifiedResults = results.data.results 
+          props.setResultData(modifiedResults)
+
+          // modifiedResults.map((element) => {
+          //   console.log(element.poi.name + ' ' + element.poi.phone)
+          // })
+          // setResultData(result.data.results)
+          // console.log('STATE: ' + resultData)
         })
 
         // ADDS MARKERS TO MAP

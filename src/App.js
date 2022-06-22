@@ -15,12 +15,13 @@ import Map from './Components/Map/Map';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
+import CardsContainer from './Components/CardsContainer/CardsContainer';
 
 
 function App() {
 
   const [user, setUser] = useState(null);
-
+  const [resultData, setResultData] = useState(null)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
@@ -172,6 +173,8 @@ function App() {
         getRoute={getRoute}
         paintRoute={paintRoute}
         map={map}
+        resultData={resultData}
+        setResultData={setResultData}
       />
       {/* <Map
         mapZoom={mapZoom}
@@ -181,7 +184,7 @@ function App() {
         secondAddCoords={secondAddCoords}
       /> */}
       <div ref={mapElement} className="mapDiv"></div>
-      <ResultsPage />
+      <CardsContainer resultData={resultData}/>
       <AddressPage user={user}/>
       <Footer />
     </div>
