@@ -5,7 +5,7 @@ import './Map.styles.css';
 import "react-toastify/dist/ReactToastify.css";
 
 const Map = (props) => {
-
+    console.log(props);
    // SETTING UP MAP
    // detour time 
    // useRef is a hook that provide access to non-virtual DOM elements.
@@ -18,9 +18,9 @@ const Map = (props) => {
        container: mapElement.current,
     //    center: [props.mapLongitude, props.mapLatitude],
     //    zoom: props.mapZoom
-   });
+   })
 
-   props.setMap(map);
+//    props.setMap(map);
 
    return () => map.remove();
    }, []);

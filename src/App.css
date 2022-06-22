@@ -33,3 +33,29 @@
   border-bottom: 1px solid black;
   text-align:center;
 }
+
+.nav {
+  display:flex;
+  justify-content: space-between;
+  background: black;
+  color:white;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 30px;
+  display:flex;
+}
+
+.nav ul {
+  display:flex;
+  flex-direction:row;
+}
+
+.nav li {
+  list-style:none;
+  margin: 0 20px;
+  cursor:pointer;
+  
+}

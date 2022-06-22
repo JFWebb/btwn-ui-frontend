@@ -1,7 +1,12 @@
 
 // import packages
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, Component } from 'react';
+import '@tomtom-international/web-sdk-maps/dist/maps.css'
+import tt from '@tomtom-international/web-sdk-maps';
+import ttserv from "@tomtom-international/web-sdk-services";
+import {auth} from './services/firebase';
+
 
 
 import Header from './Components/Header/Header'; 
@@ -10,12 +15,32 @@ import Map from './Components/Map/Map';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
-import tt from '@tomtom-international/web-sdk-maps';
-import ttserv from "@tomtom-international/web-sdk-services";
 
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
+    let map = tt.map({
+      key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
+      container: mapElement.current,
+    //    center: [props.mapLongitude, props.mapLatitude],
+    //    zoom: props.mapZoom
+    })
+
+    setMap(map);
+    return() => {
+      unsubscribe();
+      map.remove();
+    }
+}, []);
+
+
   /////////////////////// MAP STATES
+  const mapElement = useRef();
   const [mapZoom, setMapZoom] = useState(null);
   // map  holds a reference to the TomTom map object we will create.
   const [map, setMap] = useState({});
@@ -35,6 +60,24 @@ function App() {
   const [result, setResult] = useState({});
 
   // need to fix this update function still 
+  
+  /////////////////////// MAP FUNCTIONS
+
+  //functions that update our state variables and update the map
+   const increaseZoom = () => {
+       if (mapZoom < 17) {
+           setMapZoom(mapZoom + 1);
+       }
+   };
+      
+   const decreaseZoom = () => {
+       if (mapZoom > 1) {
+           setMapZoom(mapZoom - 1);
+       }
+   };
+
+  
+  // original updateMap from tutorial, leave for now
   //  const updateMap = async () => {
   //      map.setCenter([parseFloat(firstAddCoords.lon), parseFloat(firstAddCoords.lat)]);
   //      map.setZoom(15);
@@ -44,6 +87,7 @@ function App() {
   /////////////////////// ADDING MARKERS TO MAP
   const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
   const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
+
 
   // to be called in form component
   const addMarkers = () => {
@@ -62,7 +106,7 @@ function App() {
       })
       .then(function (routeData) {
         // this then setCenter doesnt work yet 👇 i think
-        map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
+        // map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
         console.log(routeData.toGeoJson());
         // converts returned value from calculateRoute as geoJSON object and stores in the state "result"
         const data = routeData.toGeoJson();
@@ -110,7 +154,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+
+      <Header user={user} />
       <Form 
         firstAdd={firstAdd}
         setFirstAdd={setFirstAdd}
@@ -126,16 +171,18 @@ function App() {
         addMarkers={addMarkers}
         getRoute={getRoute}
         paintRoute={paintRoute}
+        map={map}
       />
-      <Map
+      {/* <Map
         mapZoom={mapZoom}
         map={map}
         setMap={setMap}
         firstAddCoords={firstAddCoords}
         secondAddCoords={secondAddCoords}
-      />
+      /> */}
+      <div ref={mapElement} className="mapDiv"></div>
       <ResultsPage />
-      <AddressPage/>
+      <AddressPage user={user}/>
       <Footer />
     </div>
   );
