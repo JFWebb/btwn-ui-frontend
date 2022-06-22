@@ -1,5 +1,5 @@
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
-import tt from '@tomtom-international/web-sdk-maps';
+import tt, { map } from '@tomtom-international/web-sdk-maps';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
@@ -37,12 +37,8 @@ const Form = (props) => {
     // api POST call that takes in the lat/lon from the previous function
     const apiPostCall = (event) => {
       event.preventDefault(); 
-      console.log('this is first add: ' + props.firstAdd)
-      console.log('this is first add cords: ' + props.firstAddCoords.lat + ',' + props.firstAddCoords.lon)
-      console.log('this is second add: ' + props.secAdd)
-      console.log('this is second add cords: ' + props.secondAddCoords.lat + ',' + props.secondAddCoords.lon)
       
-      axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${props.query}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r&maxDetourTime=3600`,
+      axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${props.query}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3&maxDetourTime=3600`,
         {
           "route": {
             "points": [
@@ -66,6 +62,21 @@ const Form = (props) => {
         .then(result => {
           console.log('POST API CALL RESULTS: ', result.data)
         })
+
+        // ADDS MARKERS TO MAP
+        .then(() => {
+          props.addMarkers();
+        })
+
+        .then(() => {
+          props.getRoute();
+        })
+        
+        .then(() => {
+            props.paintRoute();
+        })
+        
+        // GETS ROUTE 
         .catch(error => console.log(error))
     }
 
