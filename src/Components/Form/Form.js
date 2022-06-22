@@ -1,5 +1,5 @@
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
-import tt from '@tomtom-international/web-sdk-maps';
+import tt, { map } from '@tomtom-international/web-sdk-maps';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
@@ -62,6 +62,21 @@ const Form = (props) => {
         .then(result => {
           console.log('POST API CALL RESULTS: ', result.data)
         })
+
+        // ADDS MARKERS TO MAP
+        .then(() => {
+          props.addMarkers();
+        })
+
+        .then(() => {
+          props.getRoute();
+        })
+        
+        .then(() => {
+            props.paintRoute();
+        })
+        
+        // GETS ROUTE 
         .catch(error => console.log(error))
     }
 

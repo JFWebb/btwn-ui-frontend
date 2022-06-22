@@ -11,6 +11,7 @@ import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
 import tt from '@tomtom-international/web-sdk-maps';
+import ttserv from "@tomtom-international/web-sdk-services";
 
 
 function App() {
@@ -31,21 +32,70 @@ function App() {
     lon: ''
   })
   const [query, setQuery] = useState('')
+  const [result, setResult] = useState({});
 
-  // cords as array pairs
-  const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
-  const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
-  
   /////////////////////// MAP FUNCTIONS
 
   //  const updateMap = async () => {
   //      map.setCenter([parseFloat(firstAddCoords.lon), parseFloat(firstAddCoords.lat)]);
   //      map.setZoom(15);
   //  };
+  const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
+  const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
 
-   const addMarker = (coords) => {
-     const marker = new tt.Marker().setLngLat(coords).addTo(map) ;
-   }
+  const addMarkers = () => {
+    const marker1 = new tt.Marker().setLngLat(firstCoordsArr).addTo(map);
+    const marker2 = new tt.Marker().setLngLat(secondCoordsArr).addTo(map);
+  }
+
+  const getRoute = () => {
+    console.log(`${firstAddCoords.lon},${firstAddCoords.lat}:${secondAddCoords.lon},${secondAddCoords.lat}`)
+    ttserv.services
+      .calculateRoute({
+        key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
+        locations: `${firstAddCoords.lon},${firstAddCoords.lat}:${secondAddCoords.lon},${secondAddCoords.lat}`
+      })
+      .then(function (routeData) {
+        map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
+        console.log(routeData.toGeoJson());
+        const data = routeData.toGeoJson();
+        setResult(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        // notify();
+      });
+  }
+
+  const paintRoute = () => {
+    console.log(result);
+    map.addLayer({
+      'id': 'route',
+      'type': 'line',
+      'source': {
+          'type': 'geojson',
+          'data': {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  properties: {},
+                  coordinates: result.features[0].geometry
+                  .coordinates
+                }
+              }
+            ]
+          }
+        },
+      'paint': {
+          'line-color': '#00d7ff',
+          'line-width': 8
+      }
+  });
+  }
+
 
 
   return (
@@ -63,7 +113,9 @@ function App() {
         query={query}
         setQuery={setQuery}
         // updateMap={updateMap}
-        addMarker={addMarker}
+        addMarkers={addMarkers}
+        getRoute={getRoute}
+        paintRoute={paintRoute}
       />
       <Map
         mapZoom={mapZoom}
