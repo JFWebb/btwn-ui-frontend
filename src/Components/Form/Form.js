@@ -1,5 +1,5 @@
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
-import tt from '@tomtom-international/web-sdk-maps';
+import tt, { map, Marker } from '@tomtom-international/web-sdk-maps';
 import { useState } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
@@ -17,6 +17,11 @@ const Form = (props) => {
   
   const apiPostCall = async (event) => {
     event.preventDefault();
+    // const features = props.map.queryRenderedFeatures()
+    // console.log(features)
+    // props.map.removeFeatureState(features)
+    // console.log(features);
+    // console.log(features);
     axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
       .then(result => {
         console.log(result)

@@ -9,6 +9,8 @@ import {auth} from './services/firebase';
 
 
 
+
+
 import Header from './Components/Header/Header'; 
 import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
@@ -19,6 +21,10 @@ import CardsContainer from './Components/CardsContainer/CardsContainer';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [mapClear, setMapClear] = useState(false);
+  const [marker1, setMarker1] = useState(null)
+  const [marker2, setMarker2] = useState(null)
+
   const [resultData, setResultData] = useState(null)
 
   useEffect(() => {
@@ -38,6 +44,7 @@ function App() {
 }, []);
 
 
+  
   /////////////////////// MAP STATES
   const mapElement = useRef();
   const [mapZoom, setMapZoom] = useState(null);
@@ -80,14 +87,31 @@ function App() {
 
   // to be called in form component
   const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {
-    const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
-    const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
+    marker1.remove();
+    marker2.remove();
+    // const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
+    // console.log('marker 1')
+    // console.log(marker1)
+    // const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
+    // console.log('marker 2')
+    // console.log(marker2)
+    setMarker1(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
+    setMarker2(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
+    // console.log('listing markers?');
+    // console.log(this.markers);
   }
 
   /////////////////////// CALCULATING ROUTE
   // to be called in form component
   const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
-    // console.log(`first lat long: ${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`)
+    // remove old routes
+    if (map.getLayer("route")) {
+      map.removeLayer("route");
+    }
+
+    if (map.getSource("route")) {
+        map.removeSource("route");
+    } 
     ttserv.services
       .calculateRoute({
         key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
@@ -150,6 +174,9 @@ function App() {
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
+        mapClear={mapClear}
+        setMap={setMap}
+        map={map}
         resultData={resultData}
         setResultData={setResultData}
 
