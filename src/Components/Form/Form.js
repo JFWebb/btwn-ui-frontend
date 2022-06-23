@@ -52,17 +52,21 @@ const Form = (props) => {
         .then(postResult => { 
           let modifiedResults = postResult.data.results 
           props.setResultData(modifiedResults)
+          let positionResults = postResult.data.results.position
+          
         })
         
         // ADDS MARKERS TO MAP
         .then(() => {
             props.addMarkers(firstLatData, firstLonData, secondLatData, secondLonData);
         })
-
+        .then(() => {
+          props.adjustZoom(firstLatData,firstLonData,secondLatData,secondLonData);
+        })
         .then(() => {
             props.getRoute(firstLatData, firstLonData, secondLatData, secondLonData)
         })
-  
+
           
         .catch(error => console.log(error.message))
       })

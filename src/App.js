@@ -60,15 +60,15 @@ function App() {
 
   //functions that update our state variables and update the map
    const increaseZoom = () => {
-       if (mapZoom < 17) {
+ 
            setMapZoom(mapZoom + 1);
-       }
+
    };
       
    const decreaseZoom = () => {
-       if (mapZoom > 1) {
-           setMapZoom(mapZoom - 1);
-       }
+
+      setMapZoom(mapZoom - 1);
+
    };
 
   
@@ -90,6 +90,22 @@ function App() {
     const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
   }
 
+
+
+  const adjustZoom = (firstLatData, firstLonData, secondLatData, secondLonData) => {
+    const bounds = [[firstLatData, firstLonData], [secondLatData, secondLonData]]
+
+    map.fitBounds(bounds, {
+      padding: {top:5, bottom:5, left:15, right:5},
+      maxZoom:17
+    })
+
+  }
+// Bound stuff
+
+ 
+
+
   /////////////////////// CALCULATING ROUTE
   // to be called in form component
   const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
@@ -108,7 +124,8 @@ function App() {
         console.log(data)
         setRouteResult(data)
         const direction = data.features[0].geometry.coordinates
-
+        const bounds = [[firstLonData, firstLatData], [secondLonData,secondLatData]]
+        
         //PAINT ROUTE
         map.addLayer({
           'id': 'route',
@@ -138,7 +155,11 @@ function App() {
           }
       })
       map.setCenter([parseFloat(firstLonData), parseFloat(firstLatData)]);
-      map.setZoom(13)
+      map.fitBounds(bounds, {
+        padding: {top:100, bottom:100, left:100, right:100},
+        maxZoom:17
+      })
+      
       
       })
       .catch((err) => {
@@ -159,6 +180,7 @@ function App() {
         getRoute={getRoute}
         resultData={resultData}
         setResultData={setResultData}
+        adjustZoom={adjustZoom}
 
       />
       <div ref={mapElement} className="mapDiv"></div>
