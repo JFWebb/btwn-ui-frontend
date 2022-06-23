@@ -1,7 +1,7 @@
 import { DoubleClickZoomHandler } from "@tomtom-international/web-sdk-maps";
 
 const CardsContainer = (props) => {
-    console.log(props.resultData)
+    // console.log(props.resultData)
     if (props.resultData) {
         return props.resultData.map((result, index) => (
             <div className ='resultCards' key= {index}> 

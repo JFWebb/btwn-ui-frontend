@@ -1,7 +1,7 @@
 
 // import packages
 import './App.css';
-import { useState, useEffect, useRef, Component } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import tt from '@tomtom-international/web-sdk-maps';
 import ttserv from "@tomtom-international/web-sdk-services";
@@ -16,21 +16,29 @@ import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
-import CardsContainer from './Components/CardsContainer/CardsContainer';
+
 
 
 function App() {
+
+  // set useRef for map
+  const mapElement = useRef();
+
+  // user states
   const [user, setUser] = useState(null);
-  const [mapClear, setMapClear] = useState(false);
+
+  // map states
+  const [map, setMap] = useState({}); // holds a reference to the TomTom map object we will create.
+  const [mapLongitude, setMapLongitude] = useState(-73.99953);
+  const [mapLatitude, setMapLatitude] = useState(40.72314);
   const [startMarker, setStartMarker] = useState(null)
   const [endMarker, setEndMarker] = useState(null)
   const [searchMarkers, setSearchMarkers] = useState([])
-
   const [resultData, setResultData] = useState(null)
-  const [center, setCenter] = useState(null);
-  const [mapLongitude, setMapLongitude] = useState(-73.99953);
-  const [mapLatitude, setMapLatitude] = useState(40.72314);
-  
+  const [mapZoom, setMapZoom] = useState(3); //controls the initial zoom
+  const [routeResult, setRouteResult] = useState({});
+
+  // establishes map on load, sets up firebase
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
     let map = tt.map({
@@ -38,8 +46,6 @@ function App() {
       container: mapElement.current,
       center: [mapLongitude, mapLatitude], //controls the intial center
       zoom: mapZoom
-    //    center: [props.mapLongitude, props.mapLatitude],
-    //    zoom: props.mapZoom
     })
 
     setMap(map);
@@ -47,44 +53,23 @@ function App() {
       unsubscribe();
       map.remove();
     }
-}, []);
-
-
-  
-  /////////////////////// MAP STATES
-  const mapElement = useRef();
-  const [mapZoom, setMapZoom] = useState(3); //controls the initial zoom
-  
-  // map  holds a reference to the TomTom map object we will create.
-  const [map, setMap] = useState({});
-  const [routeResult, setRouteResult] = useState({});
-
-  // need to fix this update function still 
-  
-  /////////////////////// MAP FUNCTIONS
+  }, []);
 
   //functions that update our state variables and update the map
-   const increaseZoom = () => {
- 
-           setMapZoom(mapZoom + 1);
-
-   };
+  const increaseZoom = () => {
+    setMapZoom(mapZoom + 1);
+  };
       
-   const decreaseZoom = () => {
+  const decreaseZoom = () => {
+    setMapZoom(mapZoom - 1);
+  };
 
-      setMapZoom(mapZoom - 1);
+  // add markers for start, end, and POIs. called in Form component
+  const addMarkers = async (firstLatData, firstLonData, secondLatData, secondLonData, POIs) => {  
+    console.log('in markers function')
+    console.log(POIs)
 
-   };
-
-  
-  // original updateMap from tutorial, leave for now
-  //  const updateMap = async () => {
-  //      map.setCenter([parseFloat(firstAddCoords.lon), parseFloat(firstAddCoords.lat)]);
-  //      map.setZoom(15);
-  //  };
-
-  // to be called in form component
-  const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {  
+    // clear existing markers from map
     if (startMarker) {
       startMarker.remove();
     }
@@ -96,22 +81,20 @@ function App() {
     if (searchMarkers) {
       searchMarkers.forEach(element => element.remove());
     }
+
+    // add start & end point markers
     setStartMarker(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
     setEndMarker(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
 
-    // ADDING SEARCH MARKERS
-    console.log('JULIE LOG')
-    resultData.forEach(element => {
+    // add markers for POI from searchAlongRoute 
+    POIs.forEach(element => {
       console.log(element.position.lon)
       let newMarker = new tt.Marker().setLngLat([element.position.lon,element.position.lat]).addTo(map)
       setSearchMarkers(current => [...current, newMarker]);
-     
     })
-    console.log(searchMarkers)
   }
 
-
-
+  // adjust zoom to fit bounds of start and end points. called in Form component
   const adjustZoom = (firstLatData, firstLonData, secondLatData, secondLonData) => {
     const bounds = [[firstLatData, firstLonData], [secondLatData, secondLonData]]
 
@@ -121,13 +104,8 @@ function App() {
     })
 
   }
-// Bound stuff
 
- 
-
-
-  /////////////////////// CALCULATING ROUTE
-  // to be called in form component
+  // calculate route to go on map. called in Form component
   const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
     // remove old routes
     if (map.getLayer("route")) {
@@ -138,13 +116,7 @@ function App() {
         map.removeSource("route");
     } 
 
-    // let supportPoints = []
-    // resultData.forEach(element => {
-    //   supportPoints.push(element.position)
-    // })
-    // console.log('SUPPORT POINTS TEST');
-    // console.log(supportPoints)
-
+    // calculates route between start and end points
     ttserv.services
       .calculateRoute({
         key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
@@ -152,17 +124,13 @@ function App() {
         // supportingPoints: supportPoints,
       })
       .then(function (routeData) {
-        // this then setCenter doesnt work yet 👇 i think
-        // map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
         // converts returned value from calculateRoute as geoJSON object and stores in the state "result"
         const data = routeData.toGeoJson();
-        // console.log('RAW DATA')
-        // console.log(data)
         setRouteResult(data)
         const direction = data.features[0].geometry.coordinates
         const bounds = [[firstLonData, firstLatData], [secondLonData,secondLatData]]
         
-        //PAINT ROUTE
+        // paint route onto map
         map.addLayer({
           'id': 'route',
           'type': 'line',
@@ -190,17 +158,16 @@ function App() {
               'line-width': 8
           }
       })
+
+      // adjust map frame 
       map.setCenter([parseFloat(firstLonData), parseFloat(firstLatData)]);
       map.fitBounds(bounds, {
         padding: {top:100, bottom:100, left:100, right:100},
         maxZoom:17
       })
-      
-      
       })
       .catch((err) => {
         console.log(err);
-        // notify();
   })
 
   }
@@ -214,13 +181,11 @@ function App() {
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
-        mapClear={mapClear}
         setMap={setMap}
         map={map}
         resultData={resultData}
         setResultData={setResultData}
         adjustZoom={adjustZoom}
-
       />
       <div ref={mapElement} className="mapDiv"></div>
       <ResultsPage resultData = {resultData}/>
