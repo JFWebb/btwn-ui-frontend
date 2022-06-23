@@ -3,7 +3,11 @@ import tt, { map, Marker } from '@tomtom-international/web-sdk-maps';
 import { useState } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
+import './Form.styles.css'
+
 const Form = (props) => {
+  const apikey = 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3'
+
   const [firstAdd, setFirstAdd] = useState('')
   const [secAdd, setSecAdd] = useState('')
   const [query, setQuery] = useState('')
@@ -19,20 +23,20 @@ const Form = (props) => {
   const apiPostCall = async (event) => {
     event.preventDefault();
     // geocodes address from first input into lat/long
-    const geocodeStart = await axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+    const geocodeStart = await axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=${apikey}`)
     firstLatData = geocodeStart.data.results[0].position.lat
     firstLonData = geocodeStart.data.results[0].position.lon
     console.log(`testing awaits: ${firstLatData}, ${firstLonData}`)
 
     //geocodes addres from second input into lat/long
-    const geocodeEnd = await axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+    const geocodeEnd = await axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=${apikey}`)
     secondLatData = geocodeEnd.data.results[0].position.lat
     secondLonData = geocodeEnd.data.results[0].position.lon
     console.log(`testing awaits 2: ${secondLatData}, ${secondLonData}`)
     
     //searches along route for points of interest
     // may need to add [const postResult = await] infront of axios if running into errors
-    axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3&maxDetourTime=${maxDetourTime}`,
+    axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime}`,
         {
           "route": {
             "points": [
@@ -83,37 +87,37 @@ const Form = (props) => {
         
   }
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={(e) => apiPostCall(e)}>
-        <input
+        <input className="form-input"
           type="text"
           name="firstAdd"
           value={firstAdd}
           onChange={(e) => setFirstAdd(e.target.value)}
           placeholder='Address 1'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="secAdd"
           onChange={(e) => setSecAdd(e.target.value)}
           value={secAdd}
           placeholder='Address 2'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="query"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
-          placeholder='Query'
+          placeholder='What are you looking for?'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="maxDetourTime"
           onChange={(e) => setMaxDetourTime(e.target.value)}
           value={maxDetourTime}
-          placeholder='Detour Time'
+          placeholder='Detour Time (in seconds)'
         />< br />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" className="button"/>
       </form>
     </div>
   )

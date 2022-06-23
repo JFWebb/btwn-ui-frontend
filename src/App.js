@@ -8,19 +8,18 @@ import ttserv from "@tomtom-international/web-sdk-services";
 import {auth} from './services/firebase';
 
 
-
-
-
 import Header from './Components/Header/Header'; 
 import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
-
-
+import CardsContainer from './Components/CardsContainer/CardsContainer';
+import ToastComponent from './Components/Toast/ToastComponent.js'
+import { Tabs, Tab, Modal, Row, Button, Col, Card, Container } from "react-bootstrap";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
-
+  const apikey = 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3'
   // set useRef for map
   const mapElement = useRef();
 
@@ -42,7 +41,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
     let map = tt.map({
-      key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
+      key: apikey,
       container: mapElement.current,
       center: [mapLongitude, mapLatitude], //controls the intial center
       zoom: mapZoom
@@ -178,6 +177,9 @@ function App() {
     <div className="App">
 
       <Header user={user} />
+      <ToastComponent />
+
+      <div className='grid-container'>
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
@@ -187,9 +189,18 @@ function App() {
         setResultData={setResultData}
         adjustZoom={adjustZoom}
       />
+      <div className='tab-container'>
+          <Tabs className="tab-bar" defaultActiveKey="results">
+            <Tab eventKey="results" title="Search Results">
+              <ResultsPage className="tab-results" resultData={resultData} />
+            </Tab>
+            <Tab eventKey="saved-addresses" title="Saved Addresses">
+              <AddressPage className="tab-addresses" user={user} />
+            </Tab>
+          </Tabs>
+        </div>
       <div ref={mapElement} className="mapDiv"></div>
-      <ResultsPage resultData = {resultData}/>
-      <AddressPage user={user}/>
+     </div>
       <Footer />
     </div>
   );

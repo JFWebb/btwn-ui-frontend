@@ -1,0 +1,8 @@
+.toast-container {
+    margin: 15px; 
+    background-color: white;
+    position: fixed; 
+    bottom: 20px; 
+    right: 0; 
+    font-weight: 500; 
+}

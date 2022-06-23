@@ -17,71 +17,39 @@
   margin-top: 20px;
 }
 
-.addressContainer {
-  border: 1px solid black;
-  width: 500px;
+.tab-bar {
+  background: whitesmoke; 
+  display: flex;
+  justify-content: space-around;
 }
 
-
-.addressContainer {
-  border: 1px solid black;
-  width: 500px;
+.grid-container {
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  grid-template-rows: repeat(3, 1fr); 
+  grid-column-gap: 40px; 
+  grid-row-gap: 40px; 
+  margin: 30px; 
+  padding-bottom: 7%; 
 }
 
-
-.addressContainer h1 {
-  border-bottom: 1px solid black;
-  text-align:center;
+.form-grid {
+  grid-area: 1 / 1 / 2 / 2; 
 }
 
-.nav {
-  display:flex;
-  justify-content: space-between;
-  background: black;
-  color:white;
+.tab-container {
+  grid-area: 1 / 2 / 4 / 3; 
 }
 
-.nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 30px;
-  display:flex;
+.mapDiv {
+  grid-area: 2 / 1 / 4 / 2; 
 }
-
-.nav ul {
-  display:flex;
-  flex-direction:row;
+.address-submit-form input {
+  margin: 0 1px; 
 }
-
-.nav li {
-  list-style:none;
-  margin: 0 20px;
-  cursor:pointer;
-  
-}
-
-.resultCards {
-  border: 1px solid black;
-  width: cover;
-}
-
-.cardContainer {
-  height: 500px;
-  width:400px;
-  overflow-y:scroll;
-  overflow-x:hidden;
-  padding:0;
-  border:1px solid grey;
-}
-
-
-.resultTabHeading {
-  position: sticky;
-  top: 0;
-  background-color:grey;
-  color:white;
-  padding:20px;
-  margin:0;
-  text-align:center;
-  border: 2px solid black;
+.address-button {
+  background-color: rgb(178, 224, 170);
+  border: solid; 
+  border-color: rgb(131, 177, 123);
+  border-radius: 1px;
 }

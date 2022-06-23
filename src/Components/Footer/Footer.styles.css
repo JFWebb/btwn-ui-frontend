@@ -1,5 +1,9 @@
 .main-footer {
-    background-color: lightgray; 
+    background-color: rgb(223, 221, 221); 
+    position: relative; 
+    width: 100%; 
+    bottom: 0px;
+    padding-top: 8px; 
 }
 .container {
     display: flex; 

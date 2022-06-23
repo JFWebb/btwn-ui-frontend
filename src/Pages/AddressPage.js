@@ -3,8 +3,8 @@ import AddressDisplay from '../Components/AddressDisplay.js/AddressDisplay';
 import {useState, useEffect} from 'react'
 
 const AddressPage = (props) => {
-    const [address, setAddress ] = useState([])
-  const URL = "http://localhost:4000/address/"
+  const [address, setAddress ] = useState([])
+  const URL = "https://btwnui.herokuapp.com/address/"
 
   // GET ROUTE
   const getAddress = async () => {
@@ -48,8 +48,8 @@ const AddressPage = (props) => {
         <div>
           {props.user &&
           <div>
-            <h1> Your Saved Addresses </h1>
-        <AddressDisplay user={props.user} address={address} getAddress={getAddress}/>
+            <h2> Your Saved Addresses </h2>
+        <AddressDisplay user={props.user} address={address} getAddress={getAddress}/>< br/>
         <AddressForm user={props.user} createAddress={createAddress} />
         </div>
       }
