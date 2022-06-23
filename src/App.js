@@ -18,6 +18,7 @@ import Footer from './Components/Footer/Footer';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [mapClear, setMapClear] = useState(false);
 
 
   useEffect(() => {
@@ -79,6 +80,9 @@ function App() {
 
   // to be called in form component
   const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {
+    if (tt.Marker.getElement("marker1")) {
+      tt.Marker.remove("marker1");
+    } 
     const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
     const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
   }
@@ -86,7 +90,14 @@ function App() {
   /////////////////////// CALCULATING ROUTE
   // to be called in form component
   const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
-    // console.log(`first lat long: ${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`)
+    // remove old routes
+    if (map.getLayer("route")) {
+      map.removeLayer("route");
+    }
+
+    if (map.getSource("route")) {
+        map.removeSource("route");
+    } 
     ttserv.services
       .calculateRoute({
         key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
@@ -166,7 +177,9 @@ function App() {
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
-        
+        mapClear={mapClear}
+        setMap={setMap}
+        map={map}
 
       />
       <div ref={mapElement} className="mapDiv"></div>

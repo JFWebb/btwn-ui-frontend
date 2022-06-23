@@ -8,6 +8,7 @@ const Form = (props) => {
   const [secAdd, setSecAdd] = useState('')
   const [query, setQuery] = useState('')
   const [maxDetourTime, setMaxDetourTime] = useState('')
+  
   // global variables for lat/lon data
   let firstLatData;
   let firstLonData;
@@ -60,11 +61,7 @@ const Form = (props) => {
         .then(() => {
             props.getRoute(firstLatData, firstLonData, secondLatData, secondLonData)
         })
-        
-        
-        // .then(() => {
-        //     props.paintRoute();
-        // })
+  
           
         .catch(error => console.log(error.message))
       })
