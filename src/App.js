@@ -26,12 +26,17 @@ function App() {
   const [marker2, setMarker2] = useState(null)
 
   const [resultData, setResultData] = useState(null)
-
+  const [center, setCenter] = useState(null);
+  const [mapLongitude, setMapLongitude] = useState(-73.99953);
+  const [mapLatitude, setMapLatitude] = useState(40.72314);
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
     let map = tt.map({
       key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
       container: mapElement.current,
+      center: [mapLongitude, mapLatitude], //controls the intial center
+      zoom: mapZoom
     //    center: [props.mapLongitude, props.mapLatitude],
     //    zoom: props.mapZoom
     })
@@ -47,7 +52,8 @@ function App() {
   
   /////////////////////// MAP STATES
   const mapElement = useRef();
-  const [mapZoom, setMapZoom] = useState(null);
+  const [mapZoom, setMapZoom] = useState(3); //controls the initial zoom
+  
   // map  holds a reference to the TomTom map object we will create.
   const [map, setMap] = useState({});
 
@@ -61,15 +67,15 @@ function App() {
 
   //functions that update our state variables and update the map
    const increaseZoom = () => {
-       if (mapZoom < 17) {
+ 
            setMapZoom(mapZoom + 1);
-       }
+
    };
       
    const decreaseZoom = () => {
-       if (mapZoom > 1) {
-           setMapZoom(mapZoom - 1);
-       }
+
+      setMapZoom(mapZoom - 1);
+
    };
 
   
@@ -101,6 +107,22 @@ function App() {
     // console.log(this.markers);
   }
 
+
+
+  const adjustZoom = (firstLatData, firstLonData, secondLatData, secondLonData) => {
+    const bounds = [[firstLatData, firstLonData], [secondLatData, secondLonData]]
+
+    map.fitBounds(bounds, {
+      padding: {top:5, bottom:5, left:15, right:5},
+      maxZoom:17
+    })
+
+  }
+// Bound stuff
+
+ 
+
+
   /////////////////////// CALCULATING ROUTE
   // to be called in form component
   const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
@@ -126,7 +148,8 @@ function App() {
         console.log(data)
         setRouteResult(data)
         const direction = data.features[0].geometry.coordinates
-
+        const bounds = [[firstLonData, firstLatData], [secondLonData,secondLatData]]
+        
         //PAINT ROUTE
         map.addLayer({
           'id': 'route',
@@ -155,7 +178,12 @@ function App() {
               'line-width': 8
           }
       })
-
+      map.setCenter([parseFloat(firstLonData), parseFloat(firstLatData)]);
+      map.fitBounds(bounds, {
+        padding: {top:100, bottom:100, left:100, right:100},
+        maxZoom:17
+      })
+      
       
       })
       .catch((err) => {
@@ -179,6 +207,7 @@ function App() {
         map={map}
         resultData={resultData}
         setResultData={setResultData}
+        adjustZoom={adjustZoom}
 
       />
       <div ref={mapElement} className="mapDiv"></div>

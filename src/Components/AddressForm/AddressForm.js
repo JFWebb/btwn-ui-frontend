@@ -27,12 +27,14 @@ const AddressForm = (props) => {
                 name='name'
                 onChange={handleChange}
                 value={newAddress.name}
+                placeholder='Name'
             />
             <input
                 type='text'
                 name='address'
                 onChange={handleChange}
                 value={newAddress.address}
+                placeholder='Address'
             />
             <input  
                 type='submit'
