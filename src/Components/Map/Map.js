@@ -2,12 +2,10 @@ import {useEffect, useState, useRef, Component} from 'react';
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import * as tt from '@tomtom-international/web-sdk-maps';
 import './Map.styles.css';
-import "react-toastify/dist/ReactToastify.css";
 
 const Map = (props) => {
     console.log(props);
    // SETTING UP MAP
-   // detour time 
    // useRef is a hook that provide access to non-virtual DOM elements.
    const mapElement = useRef();
  
@@ -20,7 +18,7 @@ const Map = (props) => {
     //    zoom: props.mapZoom
    })
 
-//    props.setMap(map);
+   props.setMap(map);
 
    return () => map.remove();
    }, []);

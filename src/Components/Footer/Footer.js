@@ -6,7 +6,7 @@ function Footer() {
         <div className='main-footer'>
             <div className='container'>
                 {/* Column 1 */}
-                <div class='item'>
+                <div className='item'>
                     <div className='footer-left'>
                         <h4>Julie Webb</h4>
                         <a href='https://www.linkedin.com/in/juliefwebb/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />
@@ -14,7 +14,7 @@ function Footer() {
                     </div>
                 </div>
                 {/* Column 2 */}
-                <div class='item'>
+                <div className='item'>
                     <div className='footer-center'>
                         <h4>Jacky Cheng</h4>
                         <a href='https://www.linkedin.com/in/jackychengjc/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />
@@ -22,7 +22,7 @@ function Footer() {
                     </div>
                 </div>
                 {/* Column 3 */}
-                <div class='item'>
+                <div className='item'>
                     <div className='footer-right'>
                         <h4>Annie Ma</h4>
                         <a href='https://www.linkedin.com/in/anniemacode/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />

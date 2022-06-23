@@ -76,7 +76,6 @@ const Form = (props) => {
             props.paintRoute();
         })
         
-        // GETS ROUTE 
         .catch(error => console.log(error))
     }
 
