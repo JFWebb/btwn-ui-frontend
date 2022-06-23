@@ -49,7 +49,7 @@ const Form = (props) => {
             },
           },
         )
-        .then(postResult => {
+        .then(postResult => { 
           let modifiedResults = postResult.data.results 
           props.setResultData(modifiedResults)
         })
