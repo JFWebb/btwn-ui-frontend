@@ -1,109 +1,108 @@
 import '@tomtom-international/web-sdk-maps/dist/maps.css'
-import tt, { map } from '@tomtom-international/web-sdk-maps';
-import { useRef, useState, useEffect } from 'react';
+import tt from '@tomtom-international/web-sdk-maps';
+import { useState } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
-
 const Form = (props) => {
-    const apiCall = (e) => {
-      props.setFirstAdd(e.target.value)
-      axios.get(`https://api.tomtom.com/search/2/geocode/${props.firstAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
-        .then(result => {
-          props.setFirstAddCoords(
-            {
-              lat: result.data.results[0].position.lat,
-              lon: result.data.results[0].position.lon
-            }
-          )
-        })
-        .catch(error => console.log(error))
-    }
+  const [firstAdd, setFirstAdd] = useState('')
+  const [secAdd, setSecAdd] = useState('')
+  const [query, setQuery] = useState('')
+  const [maxDetourTime, setMaxDetourTime] = useState('')
+  // global variables for lat/lon data
+  let firstLatData;
+  let firstLonData;
+  let secondLatData;
+  let secondLonData;
   
-    const secondApiCall = (e) => {
-      props.setSecAdd(e.target.value)
-      // console.log('this is second add: ' + props.secAdd)
-      axios.get(`https://api.tomtom.com/search/2/geocode/${props.secAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
-        .then(secondResult => {
-          props.setSecondAddCoords(
-            {
-              lat: secondResult.data.results[0].position.lat,
-              lon: secondResult.data.results[0].position.lon
-            }
-          )
-        })
-        .catch(error => console.log(error))
-    }
-  
-    // api POST call that takes in the lat/lon from the previous function
-    const apiPostCall = (event) => {
-      event.preventDefault(); 
-      
-      axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${props.query}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3&maxDetourTime=3600`,
-        {
-          "route": {
-            "points": [
-              {
-                "lat": props.firstAddCoords.lat,
-                "lon": props.firstAddCoords.lon
-              },
-              {
-                "lat": props.secondAddCoords.lat,
-                "lon": props.secondAddCoords.lon
-              },
-            ]
+  const apiPostCall = async (event) => {
+    event.preventDefault();
+    axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+      .then(result => {
+        console.log(result)
+        firstLatData = result.data.results[0].position.lat
+        firstLonData = result.data.results[0].position.lon
+      })
+    axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+      .then(secondResult => {
+        console.log(secondResult)
+        secondLatData = secondResult.data.results[0].position.lat
+        secondLonData = secondResult.data.results[0].position.lon
+        axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3&maxDetourTime=${maxDetourTime}`,
+          {
+            "route": {
+              "points": [
+                {
+                  "lat": firstLatData,
+                  "lon": firstLonData
+                },
+                {
+                  "lat": secondLatData,
+                  "lon": secondLonData
+                },
+              ]
+            },
           },
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        },
-      )
-        .then(result => {
-          console.log('POST API CALL RESULTS: ', result.data)
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          },
+        )
+        .then(postResult => {
+        console.log('POST API CALL RESULTS: ', postResult)
         })
-
+        
         // ADDS MARKERS TO MAP
         .then(() => {
-          props.addMarkers();
+            props.addMarkers(firstLatData, firstLonData, secondLatData, secondLonData);
         })
 
         .then(() => {
-          props.getRoute();
+            props.getRoute(firstLatData, firstLonData, secondLatData, secondLonData)
         })
         
-        .then(() => {
-            props.paintRoute();
-        })
         
-        // GETS ROUTE 
-        .catch(error => console.log(error))
-    }
-
-    return (
-      <div>
-        <form onSubmit={(e) => apiPostCall(e)}>
-            <input
-            type="text"
-            name="firstAdd"
-            onChange={apiCall}
-            value={props.firstAdd}
-            />
-            <input
-             type="text"
-             name="secAdd"
-             onChange={secondApiCall}
-             value={props.secAdd}
-             />
-             <input 
-            type="text"
-            name="query"
-            onChange={(e) => props.setQuery(e.target.value)}
-            value={props.query}
-            />
-            <input type="submit" value="Search" />
-        </form>
-      </div>
-    )
+        // .then(() => {
+        //     props.paintRoute();
+        // })
+          
+        .catch(error => console.log(error.message))
+      })
   }
-export default Form; 
+  return (
+    <div>
+      <form onSubmit={(e) => apiPostCall(e)}>
+        <input
+          type="text"
+          name="firstAdd"
+          value={firstAdd}
+          onChange={(e) => setFirstAdd(e.target.value)}
+          placeholder='Address 1'
+        />< br />
+        <input
+          type="text"
+          name="secAdd"
+          onChange={(e) => setSecAdd(e.target.value)}
+          value={secAdd}
+          placeholder='Address 2'
+        />< br />
+        <input
+          type="text"
+          name="query"
+          onChange={(e) => setQuery(e.target.value)}
+          value={query}
+          placeholder='Query'
+        />< br />
+        <input
+          type="text"
+          name="maxDetourTime"
+          onChange={(e) => setMaxDetourTime(e.target.value)}
+          value={maxDetourTime}
+          placeholder='Detour Time'
+        />< br />
+        <input type="submit" value="Search" />
+      </form>
+    </div>
+  )
+}
+export default Form;

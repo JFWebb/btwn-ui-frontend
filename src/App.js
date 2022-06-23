@@ -10,15 +10,13 @@ import {auth} from './services/firebase';
 
 
 import Header from './Components/Header/Header'; 
-import Form from './Components/Form/Form'; 
-import Map from './Components/Map/Map'; 
+import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
 
 
 function App() {
-
   const [user, setUser] = useState(null);
 
 
@@ -46,18 +44,8 @@ function App() {
   const [map, setMap] = useState({});
 
   /////////////////////// MAP STATES
-  const [firstAdd, setFirstAdd] = useState('')
-  const [secAdd, setSecAdd] = useState('')
-  const [firstAddCoords, setFirstAddCoords] = useState({
-    lat: '',
-    lon: ''
-  })
-  const [secondAddCoords, setSecondAddCoords] = useState({
-    lat: '',
-    lon: ''
-  })
-  const [query, setQuery] = useState('')
-  const [result, setResult] = useState({});
+ 
+  const [routeResult, setRouteResult] = useState({});
 
   // need to fix this update function still 
   
@@ -85,69 +73,71 @@ function App() {
 
 
   /////////////////////// ADDING MARKERS TO MAP
-  const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
-  const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
+  // const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
+  // const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
 
 
   // to be called in form component
-  const addMarkers = () => {
-    const marker1 = new tt.Marker().setLngLat(firstCoordsArr).addTo(map);
-    const marker2 = new tt.Marker().setLngLat(secondCoordsArr).addTo(map);
+  const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {
+    const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
+    const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
   }
 
   /////////////////////// CALCULATING ROUTE
   // to be called in form component
-  const getRoute = () => {
-    // console.log(`${firstAddCoords.lon},${firstAddCoords.lat}:${secondAddCoords.lon},${secondAddCoords.lat}`)
+  const getRoute = async (firstLatData, firstLonData, secondLatData, secondLonData) => {
+    // console.log(`first lat long: ${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`)
     ttserv.services
       .calculateRoute({
         key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
-        locations: `${firstAddCoords.lon},${firstAddCoords.lat}:${secondAddCoords.lon},${secondAddCoords.lat}`
+        locations: `${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`
       })
       .then(function (routeData) {
         // this then setCenter doesnt work yet 👇 i think
         // map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
-        console.log(routeData.toGeoJson());
         // converts returned value from calculateRoute as geoJSON object and stores in the state "result"
         const data = routeData.toGeoJson();
-        setResult(data);
+        console.log('RAW DATA')
+        console.log(data)
+        setRouteResult(data)
+        const direction = data.features[0].geometry.coordinates
+
+        //PAINT ROUTE
+        map.addLayer({
+          'id': 'route',
+          'type': 'line',
+          // outline source as geoJSON object formate
+          'source': {
+              'type': 'geojson',
+              'data': {
+                type: "FeatureCollection",
+                features: [
+                  {
+                    type: "Feature",
+                    geometry: {
+                      type: "LineString",
+                      properties: {},
+                      // pull coordinates from geoJSON stored in the state "result"
+                      coordinates: direction
+                    }
+                  }
+                ]
+              }
+            },
+          // choose line color and line width
+          'paint': {
+              'line-color': '#00d7ff',
+              'line-width': 8
+          }
+      })
+
+      
       })
       .catch((err) => {
         console.log(err);
         // notify();
-      });
-  }
+  })
 
-  /////////////////////// ADDING ROUTE LAYER TO MAP
-  const paintRoute = () => {
-    map.addLayer({
-      'id': 'route',
-      'type': 'line',
-      // outline source as geoJSON object formate
-      'source': {
-          'type': 'geojson',
-          'data': {
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                geometry: {
-                  type: "LineString",
-                  properties: {},
-                  // pull coordinates from geoJSON stored in the state "result"
-                  coordinates: result.features[0].geometry
-                  .coordinates
-                }
-              }
-            ]
-          }
-        },
-      // choose line color and line width
-      'paint': {
-          'line-color': '#00d7ff',
-          'line-width': 8
-      }
-  });
   }
 
 
@@ -156,7 +146,7 @@ function App() {
     <div className="App">
 
       <Header user={user} />
-      <Form 
+      {/* <Form 
         firstAdd={firstAdd}
         setFirstAdd={setFirstAdd}
         secAdd={secAdd}
@@ -172,14 +162,13 @@ function App() {
         getRoute={getRoute}
         paintRoute={paintRoute}
         map={map}
-      />
-      {/* <Map
-        mapZoom={mapZoom}
-        map={map}
-        setMap={setMap}
-        firstAddCoords={firstAddCoords}
-        secondAddCoords={secondAddCoords}
       /> */}
+      <Form
+        addMarkers={addMarkers}
+        getRoute={getRoute}
+        
+
+      />
       <div ref={mapElement} className="mapDiv"></div>
       <ResultsPage />
       <AddressPage user={user}/>
