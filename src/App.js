@@ -20,12 +20,17 @@ import CardsContainer from './Components/CardsContainer/CardsContainer';
 function App() {
   const [user, setUser] = useState(null);
   const [resultData, setResultData] = useState(null)
-
+  const [center, setCenter] = useState(null);
+  const [mapLongitude, setMapLongitude] = useState(-73.99953);
+  const [mapLatitude, setMapLatitude] = useState(40.72314);
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
     let map = tt.map({
       key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
       container: mapElement.current,
+      center: [mapLongitude, mapLatitude], //controls the intial center
+      zoom: mapZoom
     //    center: [props.mapLongitude, props.mapLatitude],
     //    zoom: props.mapZoom
     })
@@ -40,7 +45,8 @@ function App() {
 
   /////////////////////// MAP STATES
   const mapElement = useRef();
-  const [mapZoom, setMapZoom] = useState(null);
+  const [mapZoom, setMapZoom] = useState(3); //controls the initial zoom
+  
   // map  holds a reference to the TomTom map object we will create.
   const [map, setMap] = useState({});
 
@@ -131,7 +137,8 @@ function App() {
               'line-width': 8
           }
       })
-
+      map.setCenter([parseFloat(firstLonData), parseFloat(firstLatData)]);
+      map.setZoom(13)
       
       })
       .catch((err) => {
