@@ -3,7 +3,11 @@ import tt, { map, Marker } from '@tomtom-international/web-sdk-maps';
 import { useState } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
+import './Form.styles.css'
+
 const Form = (props) => {
+  const apikey = process.env.REACT_APP_API_KEY
+
   const [firstAdd, setFirstAdd] = useState('')
   const [secAdd, setSecAdd] = useState('')
   const [query, setQuery] = useState('')
@@ -22,18 +26,18 @@ const Form = (props) => {
     // props.map.removeFeatureState(features)
     // console.log(features);
     // console.log(features);
-    axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+    axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=${apikey}`)
       .then(result => {
         console.log(result)
         firstLatData = result.data.results[0].position.lat
         firstLonData = result.data.results[0].position.lon
       })
-    axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3`)
+    axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=${apikey}`)
       .then(secondResult => {
         console.log(secondResult)
         secondLatData = secondResult.data.results[0].position.lat
         secondLonData = secondResult.data.results[0].position.lon
-        axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=KXYIOAheM7cRQpB5GosJco3nGKGWSYg3&maxDetourTime=${maxDetourTime}`,
+        axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime}`,
           {
             "route": {
               "points": [
@@ -77,37 +81,37 @@ const Form = (props) => {
       })
   }
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={(e) => apiPostCall(e)}>
-        <input
+        <input className="form-input"
           type="text"
           name="firstAdd"
           value={firstAdd}
           onChange={(e) => setFirstAdd(e.target.value)}
           placeholder='Address 1'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="secAdd"
           onChange={(e) => setSecAdd(e.target.value)}
           value={secAdd}
           placeholder='Address 2'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="query"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
-          placeholder='Query'
+          placeholder='What are you looking for?'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="maxDetourTime"
           onChange={(e) => setMaxDetourTime(e.target.value)}
           value={maxDetourTime}
-          placeholder='Detour Time'
+          placeholder='Detour Time (in seconds)'
         />< br />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" className="button"/>
       </form>
     </div>
   )

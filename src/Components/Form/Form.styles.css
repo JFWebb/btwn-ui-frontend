@@ -1,0 +1,32 @@
+.form-input {
+    margin: 2px; 
+    width: 85%; 
+}
+
+.form-container {
+    text-align: center;
+    padding-top: 5%;
+
+}
+
+.button {
+    background: rgb(178, 224, 170);
+    /* background: rgb(202, 236, 255);  */
+    color: black;
+    border: solid; 
+    border-color: rgb(131, 177, 123);
+    border-radius: 4px;
+    padding: 8px 50px;
+    margin: 1em;
+    font-weight: 500;
+}
+
+.button:hover {
+    background-color: rgb(188, 245, 177);
+}
+
+.button:active {
+    box-shadow: 2px 2px #666; 
+    transform: translateY(4px);
+    background-color: rgb(178, 224, 170);
+}

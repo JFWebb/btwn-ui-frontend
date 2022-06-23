@@ -1,4 +1,5 @@
 import { DoubleClickZoomHandler } from "@tomtom-international/web-sdk-maps";
+import './CardsContainer.styles.css'
 
 const CardsContainer = (props) => {
     console.log(props.resultData)
@@ -6,16 +7,16 @@ const CardsContainer = (props) => {
         return props.resultData.map((result, index) => (
             <div className ='resultCards' key= {index}> 
                 <h3 className ='resultName'> {result.poi.name} </h3>
-                <h3> {result.address.freeformAddress} </h3>
-                <h4 className='resultPhone'> {result.poi.phone} </h4>
-                 <h4> <i class="material-icons">desktop_mac
-</i><span className='resultUrl'><a href='{result.poi.url}'> {result.poi.url}</a> </span></h4>
+                <h5> {result.address.freeformAddress} </h5>
+                <h5 className='resultPhone'> {result.poi.phone} </h5>
+                 <h5> <i class="material-icons">desktop_mac
+</i><span className='resultUrl'><a href='{result.poi.url}'> {result.poi.url}</a> </span></h5>
                 
             </div>
         ))
     }else {
         return (
-            <h1> No results yet! Make a search!</h1>
+            <h4> No results yet! Make a search!</h4>
         )
     }
 

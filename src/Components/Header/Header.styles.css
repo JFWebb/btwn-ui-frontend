@@ -1,0 +1,42 @@
+.title {
+    font-size: 50px;
+    margin: 0 0 0 30px; 
+    font-family: 'Staatliches', cursive;
+    text-shadow: 4px 0 rgb(120, 155, 174);
+    font-weight: 700; 
+  }
+  .nav-top {
+    display: flex;
+    justify-content: space-between;
+    /* background: rgb(171, 207, 226); */
+    background: rgb(134, 182, 206);
+    /* background: rgb(178, 205, 175);  */
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
+  }
+  
+  .nav-top a {
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+    display: flex;
+  }
+  
+  .nav-top ul {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .nav-top li {
+    list-style: none;
+    margin: 15px 20px 0 0;
+    cursor: pointer;
+    font-family:'Garamond'; 
+  }
+
+  .authent:hover {
+    color: darkslategrey; 
+  }
+
+  
