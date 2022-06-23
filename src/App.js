@@ -150,7 +150,8 @@ function App() {
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
-        
+        resultData={resultData}
+        setResultData={setResultData}
 
       />
       <div ref={mapElement} className="mapDiv"></div>
