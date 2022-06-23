@@ -9,6 +9,8 @@ import {auth} from './services/firebase';
 
 
 
+
+
 import Header from './Components/Header/Header'; 
 import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
@@ -20,6 +22,8 @@ import CardsContainer from './Components/CardsContainer/CardsContainer';
 function App() {
   const [user, setUser] = useState(null);
   const [mapClear, setMapClear] = useState(false);
+  const [marker1, setMarker1] = useState(null)
+  const [marker2, setMarker2] = useState(null)
 
   const [resultData, setResultData] = useState(null)
 
@@ -40,6 +44,7 @@ function App() {
 }, []);
 
 
+  
   /////////////////////// MAP STATES
   const mapElement = useRef();
   const [mapZoom, setMapZoom] = useState(null);
@@ -82,11 +87,18 @@ function App() {
 
   // to be called in form component
   const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {
-    if (tt.Marker.getElement("marker1")) {
-      tt.Marker.remove("marker1");
-    } 
-    const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
-    const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
+    marker1.remove();
+    marker2.remove();
+    // const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
+    // console.log('marker 1')
+    // console.log(marker1)
+    // const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
+    // console.log('marker 2')
+    // console.log(marker2)
+    setMarker1(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
+    setMarker2(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
+    // console.log('listing markers?');
+    // console.log(this.markers);
   }
 
   /////////////////////// CALCULATING ROUTE
