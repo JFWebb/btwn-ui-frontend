@@ -22,8 +22,9 @@ import CardsContainer from './Components/CardsContainer/CardsContainer';
 function App() {
   const [user, setUser] = useState(null);
   const [mapClear, setMapClear] = useState(false);
-  const [marker1, setMarker1] = useState(null)
-  const [marker2, setMarker2] = useState(null)
+  const [startMarker, setStartMarker] = useState(null)
+  const [endMarker, setEndMarker] = useState(null)
+  const [searchMarkers, setSearchMarkers] = useState([])
 
   const [resultData, setResultData] = useState(null)
 
@@ -50,9 +51,6 @@ function App() {
   const [mapZoom, setMapZoom] = useState(null);
   // map  holds a reference to the TomTom map object we will create.
   const [map, setMap] = useState({});
-
-  /////////////////////// MAP STATES
- 
   const [routeResult, setRouteResult] = useState({});
 
   // need to fix this update function still 
@@ -79,26 +77,31 @@ function App() {
   //      map.setZoom(15);
   //  };
 
-
-  /////////////////////// ADDING MARKERS TO MAP
-  // const firstCoordsArr = [firstAddCoords.lon, firstAddCoords.lat];
-  // const secondCoordsArr = [secondAddCoords.lon, secondAddCoords.lat];
-
-
   // to be called in form component
-  const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {
-    marker1.remove();
-    marker2.remove();
-    // const marker1 = new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map);
-    // console.log('marker 1')
-    // console.log(marker1)
-    // const marker2 = new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map);
-    // console.log('marker 2')
-    // console.log(marker2)
-    setMarker1(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
-    setMarker2(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
-    // console.log('listing markers?');
-    // console.log(this.markers);
+  const addMarkers = (firstLatData, firstLonData, secondLatData, secondLonData) => {  
+    if (startMarker) {
+      startMarker.remove();
+    }
+
+    if (endMarker) {
+      endMarker.remove();
+    }
+
+    if (searchMarkers) {
+      searchMarkers.forEach(element => element.remove());
+    }
+    setStartMarker(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
+    setEndMarker(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
+
+    // ADDING SEARCH MARKERS
+    console.log('JULIE LOG')
+    resultData.forEach(element => {
+      console.log(element.position.lon)
+      let newMarker = new tt.Marker().setLngLat([element.position.lon,element.position.lat]).addTo(map)
+      setSearchMarkers(current => [...current, newMarker]);
+     
+    })
+    console.log(searchMarkers)
   }
 
   /////////////////////// CALCULATING ROUTE
@@ -112,18 +115,27 @@ function App() {
     if (map.getSource("route")) {
         map.removeSource("route");
     } 
+
+    // let supportPoints = []
+    // resultData.forEach(element => {
+    //   supportPoints.push(element.position)
+    // })
+    // console.log('SUPPORT POINTS TEST');
+    // console.log(supportPoints)
+
     ttserv.services
       .calculateRoute({
         key: "KXYIOAheM7cRQpB5GosJco3nGKGWSYg3",
-        locations: `${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`
+        locations: `${firstLonData},${firstLatData}:${secondLonData},${secondLatData}`,
+        // supportingPoints: supportPoints,
       })
       .then(function (routeData) {
         // this then setCenter doesnt work yet 👇 i think
         // map.setCenter([parseFloat(firstAddCoords.lat), parseFloat(firstAddCoords.lon)]);
         // converts returned value from calculateRoute as geoJSON object and stores in the state "result"
         const data = routeData.toGeoJson();
-        console.log('RAW DATA')
-        console.log(data)
+        // console.log('RAW DATA')
+        // console.log(data)
         setRouteResult(data)
         const direction = data.features[0].geometry.coordinates
 

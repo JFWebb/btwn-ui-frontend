@@ -59,7 +59,7 @@ const Form = (props) => {
           props.setResultData(modifiedResults)
         })
         
-        // ADDS MARKERS TO MAP
+        //ADDS MARKERS TO MAP
         .then(() => {
             props.addMarkers(firstLatData, firstLonData, secondLatData, secondLonData);
         })
