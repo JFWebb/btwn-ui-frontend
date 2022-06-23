@@ -1,15 +1,15 @@
 import {login, logout} from '../../services/firebase';
 import {Link} from 'react-router-dom';
-
+import './Header.styles.css'; 
 
 
 const Header = (props) => {
 
 
     return (
-        <nav className = 'nav'>
+        <nav className = 'nav-top'>
             <Link to ="/">
-                <div> BTWN U+I</div>
+                <div className='title'> BTWN U+I</div>
             </Link>
 
             <ul>

@@ -20,8 +20,9 @@ const AddressForm = (props) => {
 
     return(
         <div className ='addressForm'>
-         <form onSubmit={handleSubmit}>
-            <h1> Add a new Saved Address!  </h1>
+         <form onSubmit={handleSubmit}
+         className='address-submit-form'>
+            <h3> Add a new Saved Address!  </h3>
             <input
                 type='text'
                 name='name'
@@ -38,6 +39,7 @@ const AddressForm = (props) => {
             />
             <input  
                 type='submit'
+                className="address-button"
             />
         </form>
         </div>

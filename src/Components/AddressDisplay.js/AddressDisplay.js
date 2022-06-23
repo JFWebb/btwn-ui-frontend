@@ -13,14 +13,14 @@ const AddressDisplay = (props) => {
         return(
             props.address.map((address, index) => (
                 <div className ='addressContainer' key={index}>
-                    <h2> {address.name} </h2>
-                    <h2> {address.address} </h2>
+                    <h5> {address.name} </h5>
+                    <p> {address.address} </p>
                 </div>
             ))
         )
     } else {
         return(
-            <h1> Log in to view addresses!</h1>
+            <h3> Log in to view addresses!</h3>
         )
     }
 }

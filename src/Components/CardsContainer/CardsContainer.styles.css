@@ -1,0 +1,39 @@
+.addressContainer {
+    border: 1px solid black;
+    width: 500px;
+  }
+  
+  .addressContainer h1 {
+    border-bottom: 1px solid black;
+    text-align:center;
+  }
+  
+  .resultCards {
+    border: 1px solid black;
+    width: cover;
+  }
+  
+  .cardContainer {
+    height: 400px;
+    width:95%;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    /* padding:0; */
+    margin: 10px; 
+    /* border:1px solid grey; */
+  }
+  
+  .resultTabHeading {
+    position: sticky;
+    top: 0;
+    background-color:rgb(210, 224, 255);
+    color:rgb(1, 1, 7);
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    border: 2px solid rgb(210, 224, 255);
+  }
+
+  /* .resultName {
+    font-weight: 500; 
+  } */

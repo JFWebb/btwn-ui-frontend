@@ -3,6 +3,8 @@ import tt, { map, Marker } from '@tomtom-international/web-sdk-maps';
 import { useState } from 'react';
 import axios from 'axios';
 import { propertiesContainsFilter } from '@turf/turf';
+import './Form.styles.css'
+
 const Form = (props) => {
   const [firstAdd, setFirstAdd] = useState('')
   const [secAdd, setSecAdd] = useState('')
@@ -77,37 +79,37 @@ const Form = (props) => {
       })
   }
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={(e) => apiPostCall(e)}>
-        <input
+        <input className="form-input"
           type="text"
           name="firstAdd"
           value={firstAdd}
           onChange={(e) => setFirstAdd(e.target.value)}
           placeholder='Address 1'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="secAdd"
           onChange={(e) => setSecAdd(e.target.value)}
           value={secAdd}
           placeholder='Address 2'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="query"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
           placeholder='Query'
         />< br />
-        <input
+        <input className="form-input"
           type="text"
           name="maxDetourTime"
           onChange={(e) => setMaxDetourTime(e.target.value)}
           value={maxDetourTime}
           placeholder='Detour Time'
         />< br />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" className="button"/>
       </form>
     </div>
   )
