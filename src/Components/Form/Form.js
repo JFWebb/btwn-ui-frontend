@@ -50,7 +50,8 @@ const Form = (props) => {
           },
         )
         .then(postResult => {
-        console.log('POST API CALL RESULTS: ', postResult)
+          let modifiedResults = postResult.data.results 
+          props.setResultData(modifiedResults)
         })
         
         // ADDS MARKERS TO MAP
