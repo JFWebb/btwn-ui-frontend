@@ -6,7 +6,7 @@ import { propertiesContainsFilter } from '@turf/turf';
 import './Form.styles.css'
 
 const Form = (props) => {
-  const apikey = process.env.REACT_APP_API_KEY
+  const apikey = 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3'
 
   const [firstAdd, setFirstAdd] = useState('')
   const [secAdd, setSecAdd] = useState('')
@@ -18,67 +18,73 @@ const Form = (props) => {
   let firstLonData;
   let secondLatData;
   let secondLonData;
+  let modifiedResults;
   
   const apiPostCall = async (event) => {
     event.preventDefault();
-    // const features = props.map.queryRenderedFeatures()
-    // console.log(features)
-    // props.map.removeFeatureState(features)
-    // console.log(features);
-    // console.log(features);
-    axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=${apikey}`)
-      .then(result => {
-        console.log(result)
-        firstLatData = result.data.results[0].position.lat
-        firstLonData = result.data.results[0].position.lon
-      })
-    axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=${apikey}`)
-      .then(secondResult => {
-        console.log(secondResult)
-        secondLatData = secondResult.data.results[0].position.lat
-        secondLonData = secondResult.data.results[0].position.lon
-        axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime}`,
-          {
-            "route": {
-              "points": [
-                {
-                  "lat": firstLatData,
-                  "lon": firstLonData
-                },
-                {
-                  "lat": secondLatData,
-                  "lon": secondLonData
-                },
-              ]
-            },
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          },
-        )
-        .then(postResult => { 
-          let modifiedResults = postResult.data.results 
-          props.setResultData(modifiedResults)
-          let positionResults = postResult.data.results.position
-          
-        })
-        
-        //ADDS MARKERS TO MAP
-        .then(() => {
-            props.addMarkers(firstLatData, firstLonData, secondLatData, secondLonData);
-        })
-        .then(() => {
-          props.adjustZoom(firstLatData,firstLonData,secondLatData,secondLonData);
-        })
-        .then(() => {
-            props.getRoute(firstLatData, firstLonData, secondLatData, secondLonData)
-        })
+    // geocodes address from first input into lat/long
+    const geocodeStart = await axios.get(`https://api.tomtom.com/search/2/geocode/${firstAdd}.json?key=${apikey}`)
+    firstLatData = geocodeStart.data.results[0].position.lat
+    firstLonData = geocodeStart.data.results[0].position.lon
+    console.log(`testing awaits: ${firstLatData}, ${firstLonData}`)
 
-          
-        .catch(error => console.log(error.message))
+    //geocodes addres from second input into lat/long
+    const geocodeEnd = await axios.get(`https://api.tomtom.com/search/2/geocode/${secAdd}.json?key=${apikey}`)
+    secondLatData = geocodeEnd.data.results[0].position.lat
+    secondLonData = geocodeEnd.data.results[0].position.lon
+    console.log(`testing awaits 2: ${secondLatData}, ${secondLonData}`)
+    
+    //searches along route for points of interest
+    // may need to add [const postResult = await] infront of axios if running into errors
+    axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime}`,
+        {
+          "route": {
+            "points": [
+              {
+                "lat": firstLatData,
+                "lon": firstLonData
+              },
+              {
+                "lat": secondLatData,
+                "lon": secondLonData
+              },
+            ]
+          },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        },
+      )
+      
+      // handle data from search along route request
+      .then(postResult => { 
+        let modifiedResults = postResult.data.results 
+        props.setResultData(modifiedResults)
+        return modifiedResults;
       })
+
+      // add start, end, and POI markers to map
+      .then(modifiedResults => {
+          console.log('passings modfieid results as global var')
+          console.log(modifiedResults)
+          props.addMarkers(firstLatData, firstLonData, secondLatData, secondLonData, modifiedResults);
+      })
+      
+      // zoom in to start and end points
+      .then(() => {
+        props.adjustZoom(firstLatData,firstLonData,secondLatData,secondLonData);
+      })
+
+      // paint route on to map
+      .then(() => {
+          props.getRoute(firstLatData, firstLonData, secondLatData, secondLonData)
+      })
+
+      .catch(error => console.log(error.message))
+          
+        
   }
   return (
     <div className="form-container">
