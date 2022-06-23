@@ -4,6 +4,8 @@ import * as tt from '@tomtom-international/web-sdk-maps';
 import './Map.styles.css';
 
 const Map = (props) => {
+    const apikey = process.env.REACT_APP_API_KEY
+
     console.log(props);
    // SETTING UP MAP
    // useRef is a hook that provide access to non-virtual DOM elements.
@@ -12,8 +14,8 @@ const Map = (props) => {
    // see note starting at line 22
    useEffect(() => {
    let map = tt.map({
-       key: 'KXYIOAheM7cRQpB5GosJco3nGKGWSYg3',
-       container: mapElement.current,
+        key: apikey,
+        container: mapElement.current,
     //    center: [props.mapLongitude, props.mapLatitude],
     //    zoom: props.mapZoom
    })

@@ -18,14 +18,12 @@ export default function ToastComponent() {
         bg='light'
       >
         <Toast.Header>
-          <strong className="me-auto"> Use Info </strong>
+          <strong className="me-auto"> Getting Started </strong>
           <small>2 sec ago</small>
         </Toast.Header>
         <Toast.Body>
           <div>
-          ~ Notes ~ <br />
-          Query: Place you want to visit <br />
-          Detour time: Distance deviated from original route
+          Fill out all fields
           </div>
         </Toast.Body>
       </Toast>

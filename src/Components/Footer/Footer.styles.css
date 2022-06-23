@@ -1,9 +1,9 @@
 .main-footer {
     background-color: rgb(223, 221, 221); 
-    position: fixed; 
+    position: relative; 
     width: 100%; 
-    bottom: 0; 
-    padding-top: 5px; 
+    bottom: 0px;
+    padding-top: 8px; 
 }
 .container {
     display: flex; 
