@@ -165,6 +165,8 @@ function App() {
         mapClear={mapClear}
         setMap={setMap}
         map={map}
+        resultData={resultData}
+        setResultData={setResultData}
 
       />
       <div ref={mapElement} className="mapDiv"></div>
