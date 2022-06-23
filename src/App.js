@@ -10,16 +10,13 @@ import {auth} from './services/firebase';
 
 
 import Header from './Components/Header/Header'; 
-import Form from './Components/Form/Form'; 
-import AnnieForm from './Components/Form/anniesform';
-import Map from './Components/Map/Map'; 
+import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
 
 
 function App() {
-  let route;
   const [user, setUser] = useState(null);
 
 
@@ -104,6 +101,8 @@ function App() {
         console.log(data)
         setRouteResult(data)
         const direction = data.features[0].geometry.coordinates
+
+        //PAINT ROUTE
         map.addLayer({
           'id': 'route',
           'type': 'line',
@@ -164,7 +163,7 @@ function App() {
         paintRoute={paintRoute}
         map={map}
       /> */}
-      <AnnieForm
+      <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
         
