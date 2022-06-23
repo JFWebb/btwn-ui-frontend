@@ -184,7 +184,7 @@ function App() {
         secondAddCoords={secondAddCoords}
       /> */}
       <div ref={mapElement} className="mapDiv"></div>
-      <CardsContainer resultData={resultData}/>
+      <ResultsPage resultData = {resultData}/>
       <AddressPage user={user}/>
       <Footer />
     </div>

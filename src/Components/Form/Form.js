@@ -11,7 +11,7 @@ const Form = (props) => {
 
     const apiCall = (e) => {
       props.setFirstAdd(e.target.value)
-      axios.get(`https://api.tomtom.com/search/2/geocode/${props.firstAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
+      axios.get(`https://api.tomtom.com/search/2/geocode/${props.firstAdd}.json?key=bdsHOhOJtOLUgSUCNVY5j11XOjXyiYrp`)
         .then(result => {
           props.setFirstAddCoords(
             {
@@ -26,7 +26,7 @@ const Form = (props) => {
     const secondApiCall = (e) => {
       props.setSecAdd(e.target.value)
       // console.log('this is second add: ' + props.secAdd)
-      axios.get(`https://api.tomtom.com/search/2/geocode/${props.secAdd}.json?key=4QtRAeWMrEOhyfp4Ok2BnW3xv0JmKM3r`)
+      axios.get(`https://api.tomtom.com/search/2/geocode/${props.secAdd}.json?key=bdsHOhOJtOLUgSUCNVY5j11XOjXyiYrp`)
         .then(secondResult => {
           props.setSecondAddCoords(
             {

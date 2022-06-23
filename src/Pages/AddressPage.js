@@ -48,7 +48,7 @@ const AddressPage = (props) => {
         <div>
           {props.user &&
           <div>
-            <h1> This is the Address Component </h1>
+            <h1> Your Saved Addresses </h1>
         <AddressDisplay user={props.user} address={address} getAddress={getAddress}/>
         <AddressForm user={props.user} createAddress={createAddress} />
         </div>
