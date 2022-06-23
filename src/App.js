@@ -14,12 +14,14 @@ import Form from './Components/Form/Form';
 import ResultsPage from './Pages/ResultsPage';
 import AddressPage from './Pages/AddressPage';
 import Footer from './Components/Footer/Footer';
+import CardsContainer from './Components/CardsContainer/CardsContainer';
 
 
 function App() {
   const [user, setUser] = useState(null);
   const [mapClear, setMapClear] = useState(false);
 
+  const [resultData, setResultData] = useState(null)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => setUser(user)) //look at googledocs notes for explanation on this!
@@ -157,23 +159,6 @@ function App() {
     <div className="App">
 
       <Header user={user} />
-      {/* <Form 
-        firstAdd={firstAdd}
-        setFirstAdd={setFirstAdd}
-        secAdd={secAdd}
-        setSecAdd={setSecAdd}
-        firstAddCoords={firstAddCoords}
-        setFirstAddCoords={setFirstAddCoords}
-        secondAddCoords={secondAddCoords}
-        setSecondAddCoords={setSecondAddCoords}
-        query={query}
-        setQuery={setQuery}
-        // updateMap={updateMap}
-        addMarkers={addMarkers}
-        getRoute={getRoute}
-        paintRoute={paintRoute}
-        map={map}
-      /> */}
       <Form
         addMarkers={addMarkers}
         getRoute={getRoute}
@@ -183,7 +168,7 @@ function App() {
 
       />
       <div ref={mapElement} className="mapDiv"></div>
-      <ResultsPage />
+      <ResultsPage resultData = {resultData}/>
       <AddressPage user={user}/>
       <Footer />
     </div>

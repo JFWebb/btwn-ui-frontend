@@ -19,7 +19,7 @@ const AddressForm = (props) => {
     }
 
     return(
-        <div>
+        <div className ='addressForm'>
          <form onSubmit={handleSubmit}>
             <h1> Add a new Saved Address!  </h1>
             <input
