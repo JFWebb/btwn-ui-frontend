@@ -43,9 +43,9 @@ const AddressPage = (props) => {
     }
   },[props.user])
 
-    return (
-      
-        <div>
+  if (props.user){
+        return (
+        <div className='savedAddressContainer'>
           {props.user &&
           <div>
             <h2> Your Saved Addresses </h2>
@@ -54,7 +54,11 @@ const AddressPage = (props) => {
         </div>
       }
         </div>
+        )
+    } else {
+      return (
+        <h5 style={{"text-align":"center", "padding":"20px"}}>  📝 Log in to view your saved addresses or add a new one! </h5>
     )
-    
+    }
 }; 
 export default AddressPage; 
