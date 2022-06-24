@@ -36,7 +36,7 @@ const Form = (props) => {
     
     //searches along route for points of interest
     // may need to add [const postResult = await] infront of axios if running into errors
-    axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime}`,
+    axios.post(`https://api.tomtom.com/search/2/searchAlongRoute/${query}.json?key=${apikey}&maxDetourTime=${maxDetourTime * 60}`,
         {
           "route": {
             "points": [
@@ -110,12 +110,15 @@ const Form = (props) => {
           value={query}
           placeholder='What are you looking for?'
         />< br />
+        <label for="maxDetourTime">Max Detour Time: {maxDetourTime} minutes</label>
         <input className="form-input"
-          type="text"
+          type="range"
           name="maxDetourTime"
           onChange={(e) => setMaxDetourTime(e.target.value)}
           value={maxDetourTime}
-          placeholder='Detour Time (in seconds)'
+          min="1"
+          max="60"
+          placeholder='Detour Time (in minutes)'
         />< br />
         <input type="submit" value="Search" className="button"/>
       </form>

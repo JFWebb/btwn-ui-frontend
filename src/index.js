@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'; 
+import './responsive.css';
 // import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
 

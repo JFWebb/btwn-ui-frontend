@@ -1,14 +1,25 @@
-.main-footer {
-    background-color: rgb(223, 221, 221); 
-    position: relative; 
+/* .main-footer { */
+    /* background-color: rgb(223, 221, 221);  */
+    /* position: relative; 
     width: 100%; 
     bottom: 0px;
     padding-top: 8px; 
+} */
+
+.main-footer {
+    /* background-color: rgb(223, 221, 221);  */
+    grid-area: 5 / 1 / 6 / 3; 
 }
 .container {
     display: flex; 
     flex-direction: row; 
     justify-content: space-evenly; 
+}
+.main-footer > .container > .item {
+    text-align: center;
+    font-size: 0.8em;
+    opacity: 75%;
+    transition: 0.15s;
 }
 .ul li {
     list-style: none; 
