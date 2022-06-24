@@ -85,11 +85,19 @@ function App() {
     setStartMarker(new tt.Marker().setLngLat([firstLonData,firstLatData]).addTo(map))
     setEndMarker(new tt.Marker().setLngLat([secondLonData,secondLatData]).addTo(map))
 
+    //marker popups
+
+
+
+
+
     // add markers for POI from searchAlongRoute 
     POIs.forEach(element => {
+      
       console.log(element.position.lon)
-      let newMarker = new tt.Marker().setLngLat([element.position.lon,element.position.lat]).addTo(map)
+      let newMarker = new tt.Marker().setLngLat([element.position.lon,element.position.lat]).setPopup(new tt.Popup({offset:35, className:'resultsPopups'}).setHTML(`  <i class="material-icons">place</i><h6 className="popupName"><strong>${element.poi.name}</strong></h6> <p className="popupAddress">${element.address.freeformAddress}</p>`)).addTo(map)
       setSearchMarkers(current => [...current, newMarker]);
+
     })
   }
 

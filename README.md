@@ -11,14 +11,15 @@ Meeting up with friends can be tough, sometimes if you live far away from each o
 - React
 - Node 
 - Bootstrap
+- Materialize
 - Tomtom API
+
+## Screenshots 
 
 ## Getting Started 
 [Trello Board](https://trello.com/b/gnaPkGRd/btwn-ui)
 
 Click here to see the deployed app!
-
-## Unsolved Problems
 
 
 ## Future Enhancements
