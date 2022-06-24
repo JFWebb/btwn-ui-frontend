@@ -20,7 +20,7 @@ Meeting up with friends can be tough, sometimes if you live far away from each o
 ## Getting Started 
 [Trello Board](https://trello.com/b/gnaPkGRd/btwn-ui)
 
-Click here to see the deployed app!
+<a href="https://btwn-ui.netlify.app/">Click here to see the deployed app!</a>
 
 
 ## Future Enhancements
