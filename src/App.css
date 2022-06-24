@@ -64,3 +64,17 @@ html {
   border-radius: 1px;
 }
 
+.mapboxgl-popup-content {
+  height: 150px;
+  font-size:15px;
+}
+
+.popupName {
+  font-size:15px;
+  font-weight:bold;
+}
+
+.popupAddress {
+  font-weight:12px;
+}
+

@@ -94,21 +94,21 @@ const Form = (props) => {
           name="firstAdd"
           value={firstAdd}
           onChange={(e) => setFirstAdd(e.target.value)}
-          placeholder='Address 1'
+          placeholder='Your Address'
         />< br />
         <input className="form-input"
           type="text"
           name="secAdd"
           onChange={(e) => setSecAdd(e.target.value)}
           value={secAdd}
-          placeholder='Address 2'
+          placeholder="A Friend's Address"
         />< br />
         <input className="form-input"
           type="text"
           name="query"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
-          placeholder='What are you looking for?'
+          placeholder='What kind of place do you want to meet at?'
         />< br />
         <label for="maxDetourTime">Max Detour Time: {maxDetourTime} minutes</label>
         <input className="form-input"
