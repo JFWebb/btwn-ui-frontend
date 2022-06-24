@@ -45,7 +45,7 @@ const AddressPage = (props) => {
 
     return (
       
-        <div>
+        <div className='savedAddressContainer'>
           {props.user &&
           <div>
             <h2> Your Saved Addresses </h2>
