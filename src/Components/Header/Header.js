@@ -8,7 +8,7 @@ const Header = (props) => {
 
     return (
         <nav className='nav-top'>
-            <div className='title'> BTWN U+I</div>
+            <div className='title'> BTWN U<span className="greentext">+</span>I</div>
             <ul>
                 {
                     props.user

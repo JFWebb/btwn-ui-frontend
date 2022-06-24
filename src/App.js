@@ -208,8 +208,8 @@ function App() {
           </Tabs>
         </div>
       <div ref={mapElement} className="mapDiv"></div>
-     </div>
       <Footer />
+     </div>
     </div>
   );
 }

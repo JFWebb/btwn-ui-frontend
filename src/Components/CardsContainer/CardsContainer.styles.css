@@ -9,12 +9,12 @@
   }
   
   .resultCards {
-    border: 1px solid black;
+    border-bottom: 2px solid #DEE2E6;
     width: cover;
   }
   
   .cardContainer {
-    height: 400px;
+    height: 600px;
     width:95%;
     overflow-y:scroll;
     overflow-x:hidden;

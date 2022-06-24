@@ -23,7 +23,11 @@ export default function ToastComponent() {
         </Toast.Header>
         <Toast.Body>
           <div>
-          Fill out all fields
+            <p>🏠 Add in two addresess (you and a friend 👯)</p>
+            <p>👀 What are you looking to do? Resturant? Museum? Park? Type it in!</p>
+            <p>⏱ Specify your max detour time-- anywhere between 1 and 60 minutes</p>
+            <p>🔎 Hit search and find the perfect place to meet</p>
+            <p>✨ But wait... there's more! Login with google and save your favorite addresss</p>
           </div>
         </Toast.Body>
       </Toast>

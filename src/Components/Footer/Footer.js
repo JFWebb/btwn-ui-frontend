@@ -8,25 +8,19 @@ function Footer() {
                 {/* Column 1 */}
                 <div className='item'>
                     <div className='footer-left'>
-                        <h4>Julie Webb</h4>
-                        <a href='https://www.linkedin.com/in/juliefwebb/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />
-                        <a href='https://github.com/JFWebb' target='_blank' rel='noreferrer'>Github</a>
+                        <p>Julie Webb | <a href='https://www.linkedin.com/in/juliefwebb/' target='_blank' rel='noreferrer'>LinkedIn</a> | <a href='https://github.com/JFWebb' target='_blank' rel='noreferrer'>Github</a></p>
                     </div>
                 </div>
                 {/* Column 2 */}
                 <div className='item'>
                     <div className='footer-center'>
-                        <h4>Jacky Cheng</h4>
-                        <a href='https://www.linkedin.com/in/jackychengjc/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />
-                        <a href='https://github.com/jcheng1022' target='_blank' rel='noreferrer'>Github</a>
+                        <p>Jacky Cheng | <a href='https://www.linkedin.com/in/jackychengjc/' target='_blank' rel='noreferrer'>LinkedIn</a> | <a href='https://github.com/jcheng1022' target='_blank' rel='noreferrer'>Github</a></p>
                     </div>
                 </div>
                 {/* Column 3 */}
                 <div className='item'>
                     <div className='footer-right'>
-                        <h4>Annie Ma</h4>
-                        <a href='https://www.linkedin.com/in/anniemacode/' target='_blank' rel='noreferrer'>LinkedIn</a>< br />
-                        <a href='https://github.com/annnieeeema' target='_blank' rel='noreferrer'>Github</a>
+                        <p>Annie Ma | <a href='https://www.linkedin.com/in/anniemacode/' target='_blank' rel='noreferrer'>LinkedIn</a> | <a href='https://github.com/annnieeeema' target='_blank' rel='noreferrer'>Github</a></p>
                     </div>
                 </div>
             </div>

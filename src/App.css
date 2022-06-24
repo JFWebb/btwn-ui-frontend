@@ -1,10 +1,17 @@
+html {
+  height: 95vh;
+  width: 100vw;
+  /* background-color: #F5FFFF; */
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
 
+}
 .mapContainer {
   margin-top: 25px;
 }
 
 .mapDiv{
-  height: 500px;
+  height: 350px;
 }
 
 .mapZoomDisplay {
@@ -24,11 +31,13 @@
 }
 
 .grid-container {
+  box-sizing: border-box;
+  height: 80vh;
   display: grid; 
   grid-template-columns: repeat(2, 1fr); 
-  grid-template-rows: repeat(3, 1fr); 
-  grid-column-gap: 40px; 
-  grid-row-gap: 40px; 
+  grid-template-rows: repeat(4, 1fr); 
+  grid-column-gap: 25px; 
+  grid-row-gap: 25px; 
   margin: 30px; 
   padding-bottom: 7%; 
 }
@@ -44,6 +53,7 @@
 .mapDiv {
   grid-area: 2 / 1 / 4 / 2; 
 }
+
 .address-submit-form input {
   margin: 0 1px; 
 }

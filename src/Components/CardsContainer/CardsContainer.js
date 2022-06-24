@@ -6,17 +6,17 @@ const CardsContainer = (props) => {
     if (props.resultData) {
         return props.resultData.map((result, index) => (
             <div className ='resultCards' key= {index}> 
-                <h3 className ='resultName'> {result.poi.name} </h3>
-                <h5> {result.address.freeformAddress} </h5>
-                <h5 className='resultPhone'> {result.poi.phone} </h5>
-                 <h5> <i class="material-icons">desktop_mac
-</i><span className='resultUrl'><a href='{result.poi.url}'> {result.poi.url}</a> </span></h5>
+                <h5 className ='resultName' style={{"font-weight":"700"}}> {result.poi.name} </h5>
+                <h6> {result.address.freeformAddress} </h6>
+                <h6 className='resultPhone'> {result.poi.phone} </h6>
+                 <h6> <i class="material-icons">desktop_mac
+</i><span className='resultUrl'><a href='{result.poi.url}'> {result.poi.url}</a> </span></h6>
                 
             </div>
         ))
     }else {
         return (
-            <h4> No results yet! Make a search!</h4>
+            <h5 style={{"text-align":"center", "padding":"20px"}}> 🔎 No results yet... try making a search!</h5>
         )
     }
 

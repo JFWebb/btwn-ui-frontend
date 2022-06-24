@@ -5,6 +5,9 @@
     /* text-shadow: 4px 0 rgb(120, 155, 174); */
     font-weight: 700; 
   }
+  .greentext{
+    color: rgb(188, 245, 177)
+  }
   .nav-top {
     display: flex;
     justify-content: space-between;
@@ -32,12 +35,16 @@
   .nav-top li {
     list-style: none;
     margin: 15px 20px 0 0;
+    padding: 0px 20px 0px 20px;
     cursor: pointer;
     transition: 0.15s;
   }
-
+  .authent{
+    font-size: 30px;
+    font-family: 'Staatliches', cursive;
+  }
   .authent:hover {
-    color: darkslategrey; 
+    color: rgb(188, 245, 177);
   }
 
   
